@@ -2,11 +2,8 @@
 > Experimental Shake for your ⌚️
 
 [![Swift Version][swift-image]][swift-url]
-[![Build Status][travis-image]][travis-url]
-[![License][license-image]][license-url]
-[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/EZSwiftExtensions.svg)](https://img.shields.io/cocoapods/v/LFAlertController.svg)  
-[![Platform](https://img.shields.io/cocoapods/p/LFAlertController.svg?style=flat)](http://cocoapods.org/pods/LFAlertController)
+[![Platform](https://img.shields.io/cocoapods/p/WatchShaker.svg?style=flat)](http://cocoadocs.org/docsets/WatchShaker)
 
 ![](header.png)
 
@@ -83,7 +80,7 @@ extension InterfaceController: WatchShakerDelegate
 
 ## Contribute
 
-We would love for you to contribute to **YourLibraryName**, check the ``LICENSE`` file for more info.
+We would love for you to contribute to **WatchShaker**, check the ``LICENSE`` file for more info.
 
 ## Meta
 
