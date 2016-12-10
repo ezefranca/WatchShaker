@@ -5,7 +5,7 @@
 
 ![](https://media.giphy.com/media/l0HlEj4BChAiyCaje/giphy.gif)
 
- WatchShaker is a watchOS helper to get your ⌚️ shake moviment
+ WatchShaker is a watchOS helper to get your ⌚️ shake movement
 
 ## Requirements
 
