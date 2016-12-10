@@ -79,8 +79,6 @@ Ezequiel França – [@ezefranca](https://twitter.com/ezefranca) – ezequiel.if
 
 Distributed under the MIT license. See ``LICENSE`` for more information.
 
-[https://github.com/ezefranca/github-link](https://github.com/dbader/)
-
 [swift-image]:https://img.shields.io/badge/swift-3.0-orange.svg
 [swift-url]: https://swift.org/
 [license-image]: https://img.shields.io/badge/License-MIT-blue.svg
