@@ -1,5 +1,5 @@
 # WatchShaker
-> Experimental Shake for your ⌚️
+> Simple motion detector for ⌚️ (watchOS) shake gesture.
 
 [![Swift Version][swift-image]][swift-url]
 [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/EZSwiftExtensions.svg)](https://img.shields.io/cocoapods/v/LFAlertController.svg)  
@@ -22,13 +22,6 @@ You can use [CocoaPods](http://cocoapods.org/) to install `WatchShaker` by addin
 ```ruby
 use_frameworks!
 pod 'WatchShaker'
-```
-
-#### Carthage
-Create a `Cartfile` that lists the framework and run `carthage update`. Follow the [instructions](https://github.com/Carthage/Carthage#if-youre-building-for-ios) to add `$(SRCROOT)/Carthage/Build/iOS/YourLibrary.framework` to an iOS project.
-
-```
-github "yourUsername/yourlibrary"
 ```
 #### Manually
 1. Download and drop ```WatchShaker.swift``` in your project to your watch target.  
