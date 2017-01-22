@@ -1,7 +1,7 @@
 # WatchShaker
 > Simple motion detector for ⌚️ (watchOS) shake gesture.
 
-[![Swift Version][swift-image]][swift-url][![CocoaPods Compatible](https://img.shields.io/cocoapods/v/WatchShaker.svg)](https://img.shields.io/cocoapods/v/WatchShaker.svg)[![Platform](https://img.shields.io/cocoapods/p/WatchShaker.svg?style=flat)](http://cocoadocs.org/docsets/WatchShaker)
+[![Swift Version][swift-image]][swift-url] [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/WatchShaker.svg)](https://img.shields.io/cocoapods/v/WatchShaker.svg) [![Platform](https://img.shields.io/cocoapods/p/WatchShaker.svg?style=flat)](http://cocoadocs.org/docsets/WatchShaker)
 
 ![](https://media.giphy.com/media/l0HlEj4BChAiyCaje/giphy.gif)
 
