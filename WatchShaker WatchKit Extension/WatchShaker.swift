@@ -30,12 +30,15 @@ protocol WatchShakerDelegate
 {
     
     /// Called when Apple Watch are shaked
-    func didShake()
+    ///
+    /// - Parameter watchShaker: the watch shaker instance
+    func watchShakerDidShake(_ watchShaker: WatchShaker)
     
     /// Called when Something are wrong
     ///
+    /// - Parameter watchShaker: the watch shaker instance
     /// - Parameter error: error ocurred
-    func error(with error: Error)
+    func watchShaker(_ watchShaker:WatchShaker, didFailWith error: Error)
 }
 
 extension WatchShaker  {
@@ -93,14 +96,14 @@ class WatchShaker
             
             guard err == nil else
             {
-                self.delegate?.error(with: err!)
+                self.delegate?.watchShaker(self, didFailWith: err!)
                 return
             }
             
             guard let data = accelerometerData else
             {
                 let e = NSError(domain: "No accelerometer data", code: 666, userInfo: ["No accelerometer data":"info"])
-                self.delegate?.error(with: e)
+                self.delegate?.watchShaker(self, didFailWith: e)
                 return
             }
             
@@ -115,13 +118,13 @@ class WatchShaker
                     if Date().compare(lastDate.addingTimeInterval(self.delay)) == .orderedDescending
                     {
                         self.lastShakeDate = Date()
-                        self.delegate?.didShake()
+                        self.delegate?.watchShakerDidShake(self)
                     }
                     return
                 }
                 
                 self.lastShakeDate = Date()
-                self.delegate?.didShake()
+                self.delegate?.watchShakerDidShake(self)
             }
         }
     }
