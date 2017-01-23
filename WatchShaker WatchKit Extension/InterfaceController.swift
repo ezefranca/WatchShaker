@@ -37,11 +37,11 @@ class InterfaceController: WKInterfaceController {
 
 extension InterfaceController: WatchShakerDelegate
 {
-    func didShake() {
-        print("YOU SHAKE YOUR ⌚️⌚️⌚️")
+    func watchShakerDidShake(_ watchShaker: WatchShaker) {
+        print("YOU HAVE SHAKEN YOUR ⌚️⌚️⌚️")
     }
-    
-    func error(with error: Error) {
+
+    func watchShaker(_ watchShaker: WatchShaker, didFailWith error: Error) {
         print(error.localizedDescription)
     }
 }
