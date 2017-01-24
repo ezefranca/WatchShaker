@@ -77,7 +77,7 @@ We would love for you to contribute to **WatchShaker**, check the ``LICENSE`` fi
 
 Ezequiel França – [@ezefranca](https://twitter.com/ezefranca) – ezequiel.ifsp@gmail.com
 
-Distributed under the GNU GPL license. See ``LICENSE`` for more information.
+Distributed under the MIT license. See ``LICENSE`` for more information.
 
 [swift-image]:https://img.shields.io/badge/swift-3.0-orange.svg
 [swift-url]: https://swift.org/
