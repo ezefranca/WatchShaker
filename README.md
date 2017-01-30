@@ -67,6 +67,7 @@ extension InterfaceController: WatchShakerDelegate
         print(error.localizedDescription)
     }
 }
+
 ```
 
 ## Contribute
