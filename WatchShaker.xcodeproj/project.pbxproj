@@ -19,7 +19,6 @@
 		8B2227B11DFB90E200C09475 /* WatchShaker WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 8B2227B01DFB90E200C09475 /* WatchShaker WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		8B2227B81DFB90E200C09475 /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2227B71DFB90E200C09475 /* InterfaceController.swift */; };
 		8B2227BA1DFB90E200C09475 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2227B91DFB90E200C09475 /* ExtensionDelegate.swift */; };
-		8B2227BC1DFB90E200C09475 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2227BB1DFB90E200C09475 /* NotificationController.swift */; };
 		8B2227BE1DFB90E200C09475 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B2227BD1DFB90E200C09475 /* Assets.xcassets */; };
 		8B2227D11DFB910500C09475 /* WatchShaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2227D01DFB910500C09475 /* WatchShaker.swift */; };
 /* End PBXBuildFile section */
@@ -89,13 +88,11 @@
 		8B2227A91DFB90E200C09475 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8B2227AB1DFB90E200C09475 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8B2227B01DFB90E200C09475 /* WatchShaker WatchKit Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "WatchShaker WatchKit Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
-		8B2227B61DFB90E200C09475 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
 		8B2227B71DFB90E200C09475 /* InterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceController.swift; sourceTree = "<group>"; };
 		8B2227B91DFB90E200C09475 /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
-		8B2227BB1DFB90E200C09475 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
 		8B2227BD1DFB90E200C09475 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8B2227BF1DFB90E200C09475 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8B2227D01DFB910500C09475 /* WatchShaker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchShaker.swift; sourceTree = "<group>"; };
+		8B2227D01DFB910500C09475 /* WatchShaker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WatchShaker.swift; path = ../Pod/Classes/WatchShaker.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -183,20 +180,10 @@
 				8B2227D01DFB910500C09475 /* WatchShaker.swift */,
 				8B2227B71DFB90E200C09475 /* InterfaceController.swift */,
 				8B2227B91DFB90E200C09475 /* ExtensionDelegate.swift */,
-				8B2227BB1DFB90E200C09475 /* NotificationController.swift */,
 				8B2227BD1DFB90E200C09475 /* Assets.xcassets */,
 				8B2227BF1DFB90E200C09475 /* Info.plist */,
-				8B2227B51DFB90E200C09475 /* Supporting Files */,
 			);
 			path = "WatchShaker WatchKit Extension";
-			sourceTree = "<group>";
-		};
-		8B2227B51DFB90E200C09475 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				8B2227B61DFB90E200C09475 /* PushNotificationPayload.apns */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -386,7 +373,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8B2227BC1DFB90E200C09475 /* NotificationController.swift in Sources */,
 				8B2227D11DFB910500C09475 /* WatchShaker.swift in Sources */,
 				8B2227BA1DFB90E200C09475 /* ExtensionDelegate.swift in Sources */,
 				8B2227B81DFB90E200C09475 /* InterfaceController.swift in Sources */,
@@ -677,6 +663,7 @@
 				8B2227C41DFB90E200C09475 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		8B2227C61DFB90E200C09475 /* Build configuration list for PBXNativeTarget "WatchShaker WatchKit App" */ = {
 			isa = XCConfigurationList;
@@ -685,6 +672,7 @@
 				8B2227C81DFB90E200C09475 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		8B2227CA1DFB90E200C09475 /* Build configuration list for PBXNativeTarget "WatchShaker" */ = {
 			isa = XCConfigurationList;
@@ -693,6 +681,7 @@
 				8B2227CC1DFB90E200C09475 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		8B2227CD1DFB90E200C09475 /* Build configuration list for PBXNativeTarget "WatchShakerTests" */ = {
 			isa = XCConfigurationList;
@@ -701,6 +690,7 @@
 				8B2227CF1DFB90E200C09475 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
