@@ -3,7 +3,7 @@
 
 [![Swift Version][swift-image]][swift-url] [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/WatchShaker.svg)](https://img.shields.io/cocoapods/v/WatchShaker.svg) [![Platform](https://img.shields.io/cocoapods/p/WatchShaker.svg?style=flat)](http://cocoadocs.org/docsets/WatchShaker)
 
-<img src="https://raw.githubusercontent.com/ezefranca/ezefranca.github.io/master/img/bwshaker.jpg" width="400" height="300" />
+<img src="https://raw.githubusercontent.com/ezefranca/WatchShaker/master/img/bwshaker.jpg" width="400" height="300" />
 
  WatchShaker is a watchOS helper to get your ⌚️ shake movements
 
