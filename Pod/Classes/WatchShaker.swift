@@ -19,6 +19,7 @@ import CoreMotion
 /// - shakeSensibilityHardest: Hardest shake sensibility
 
 enum ShakeSensibility: Double {
+    typealias RawValue = Double
     case shakeSensibilitySoftest = 0.1
     case shakeSensibilitySoft = 0.7
     case shakeSensibilityNormal = 1.0
@@ -32,7 +33,7 @@ protocol WatchShakerDelegate
     /// Called when Apple Watch are shaked
     ///
     /// - Parameter watchShaker: the watch shaker instance
-    func watchShakerDidShake(_ watchShaker: WatchShaker)
+    func watchShaker(_ watchShaker: WatchShaker, didShakeWith sensibility:ShakeSensibility)
     
     /// Called when Something are wrong
     ///
@@ -59,7 +60,7 @@ extension WatchShaker  {
 }
 
 
-class WatchShaker
+class WatchShaker : NSObject
 {
     public var delegate: WatchShakerDelegate?
     
@@ -67,6 +68,7 @@ class WatchShaker
     fileprivate var lastShakeDate: Date?
     // The threshold for how much acceleration needs to happen before an event will register.
     fileprivate var threshold:Double
+    fileprivate var sensibility:ShakeSensibility
     // Time between shakes
     fileprivate var delay:Double = 0.1
     
@@ -79,6 +81,7 @@ class WatchShaker
     init(shakeSensibility to:ShakeSensibility, delay time:Double) {
         self.threshold = to.rawValue
         self.delay = time
+        self.sensibility = to
         self.motionManager = CMMotionManager()
     }
     
@@ -118,13 +121,13 @@ class WatchShaker
                     if Date().compare(lastDate.addingTimeInterval(self.delay)) == .orderedDescending
                     {
                         self.lastShakeDate = Date()
-                        self.delegate?.watchShakerDidShake(self)
+                        self.delegate?.watchShaker(self, didShakeWith: self.sensibility)
                     }
                     return
                 }
                 
                 self.lastShakeDate = Date()
-                self.delegate?.watchShakerDidShake(self)
+                self.delegate?.watchShaker(self, didShakeWith: self.sensibility)
             }
         }
     }

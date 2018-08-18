@@ -19,6 +19,7 @@ class InterfaceController: WKInterfaceController {
     
     var shaker:WatchShaker = WatchShaker(shakeSensibility: .shakeSensibilityNormal, delay: 0.2)
     
+    @IBOutlet var infoLabel: WKInterfaceLabel!
     override func willActivate() {
         
         super.willActivate()
@@ -33,15 +34,26 @@ class InterfaceController: WKInterfaceController {
         
     }
     
+    func printInfo(_ string:String) {
+        self.infoLabel.setText(string)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            self.infoLabel.setText("")
+        }
+    }
+    
 }
 
 extension InterfaceController: WatchShakerDelegate
 {
-    func watchShakerDidShake(_ watchShaker: WatchShaker) {
-        print("YOU HAVE SHAKEN YOUR ⌚️⌚️⌚️")
+    func watchShaker(_ watchShaker: WatchShaker, didShakeWith sensibility: ShakeSensibility) {
+        let message = "YOU HAVE SHAKEN YOUR ⌚️⌚️⌚️"
+        print(message)
+        printInfo(message)
+        
     }
 
     func watchShaker(_ watchShaker: WatchShaker, didFailWith error: Error) {
         print(error.localizedDescription)
+        printInfo(error.localizedDescription)
     }
 }
