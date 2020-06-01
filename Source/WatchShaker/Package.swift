@@ -21,8 +21,6 @@ let package = Package(
         .target(
             name: "WatchShaker",
             dependencies: []),
-        .testTarget(
-            name: "WatchShakerTests",
-            dependencies: ["WatchShaker"]),
     ]
 )
+
