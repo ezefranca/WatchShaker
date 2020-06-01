@@ -18,8 +18,8 @@ import CoreMotion
 /// - shakeSensibilityHard: Hard shake sensibility
 /// - shakeSensibilityHardest: Hardest shake sensibility
 
-enum ShakeSensibility: Double {
-    typealias RawValue = Double
+public enum ShakeSensibility: Double {
+    public typealias RawValue = Double
     case shakeSensibilitySoftest = 0.1
     case shakeSensibilitySoft = 0.7
     case shakeSensibilityNormal = 1.0
@@ -27,7 +27,7 @@ enum ShakeSensibility: Double {
     case shakeSensibilityHardest = 2.0
 }
 
-protocol WatchShakerDelegate
+public protocol WatchShakerDelegate
 {
     
     /// Called when Apple Watch are shaked
@@ -60,7 +60,7 @@ extension WatchShaker  {
 }
 
 
-class WatchShaker : NSObject
+public class WatchShaker : NSObject
 {
     public var delegate: WatchShakerDelegate?
     
@@ -78,7 +78,7 @@ class WatchShaker : NSObject
     ///   - shakeThreshold: The threshold for how much acceleration needs to happen before an event will register.
     ///   - shakeDelay: Time between shakes
     
-    init(shakeSensibility to:ShakeSensibility, delay time:Double) {
+    public init(shakeSensibility to:ShakeSensibility, delay time:Double) {
         self.threshold = to.rawValue
         self.delay = time
         self.sensibility = to
@@ -132,7 +132,10 @@ class WatchShaker : NSObject
         }
     }
     
-    func stop()
+    /// stop
+    ///
+    ///
+    public func stop()
     {
         motionManager.stopAccelerometerUpdates()
     }
