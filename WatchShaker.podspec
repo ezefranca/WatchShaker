@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "WatchShaker"
-  s.version          = "0.0.3"
+  s.version          = "0.0.5"
   s.summary          = "watchOS shake moviment"
 
   s.description      = <<-DESC
@@ -12,10 +12,11 @@ Pod::Spec.new do |s|
   s.author       = {'ezefranca' => 'https://github.com/ezefranca'}
   s.source           = { :git => "https://github.com/ezefranca/WatchShaker.git", :tag => s.version.to_s }
 
-  s.platform     = :watchos, '3.0'
+  s.platforms = { :watchos => "6.0" }
+  s.swift_version = "5.1"
   s.requires_arc = false
   s.social_media_url   = "http://twitter.com/ezefranca"
-  s.source_files = 'Pod/Classes/**/*'
-
+  s.source_files = 'Sources/WatchShaker/**/*.swift'
+  s.xcconfig = { "SWIFT_VERSION" => "5.1" }
   s.frameworks = 'Foundation', 'WatchKit', 'CoreMotion'
 end
