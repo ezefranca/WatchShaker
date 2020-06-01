@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "WatchShaker",
+        "repositoryURL": "https://github.com/ezefranca/WatchShaker.git",
+        "state": {
+          "branch": "master",
+          "revision": "013820d3c671168dacf781920f247fbef99652cd",
+          "version": null
+        }
+      }
+    ]
+  },
+  "version": 1
+}
