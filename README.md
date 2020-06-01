@@ -1,26 +1,19 @@
 # WatchShaker
 > Simple motion detector for ⌚️ (watchOS) shake gesture.
 
-[![Swift Version][swift-image]][swift-url] [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/WatchShaker.svg)](https://img.shields.io/cocoapods/v/WatchShaker.svg) [![Platform](https://img.shields.io/cocoapods/p/WatchShaker.svg?style=flat)](http://cocoadocs.org/docsets/WatchShaker)
+[![Swift Version][swift-image]][swift-url] [![Platform](https://img.shields.io/cocoapods/p/WatchShaker.svg?style=flat)](http://cocoadocs.org/docsets/WatchShaker)
 
-<img src="https://raw.githubusercontent.com/ezefranca/WatchShaker/master/img/bwshaker.jpg" width="400" height="300" />
+<img src="https://raw.githubusercontent.com/ezefranca/WatchShaker/master/.utils/bwshaker.jpg" width="400" height="300" />
 
  WatchShaker is a watchOS helper to get your ⌚️ shake movements
 
 ## Requirements
 
-- watchOS 3.0+
-- Xcode 8.0+
+- watchOS 6.0+
+- Xcode 11.0+
 
 ## Installation
 
-#### CocoaPods
-You can use [CocoaPods](http://cocoapods.org/) to install `WatchShaker` by adding it to your `Podfile`:
-
-```ruby
-use_frameworks!
-pod 'WatchShaker'
-```
 #### Manually
 1. Download and drop ```WatchShaker.swift``` in your project to your watch target.  
 2. Congratulations!  
@@ -70,7 +63,7 @@ extension InterfaceController: WatchShakerDelegate
 
 ```
 
-![](https://raw.githubusercontent.com/ezefranca/WatchShaker/master/giphy%20(1).gif)
+![](https://raw.githubusercontent.com/ezefranca/WatchShaker/master/.utils/applewatch.gif)
 
 ## Contribute
 
@@ -82,7 +75,7 @@ Ezequiel França – [@ezefranca](https://twitter.com/ezefranca) and all awesome
 
 Distributed under the MIT license. See ``LICENSE`` for more information.
 
-[swift-image]:https://img.shields.io/badge/swift-3.0-orange.svg
+[swift-image]:https://img.shields.io/badge/swift-5.1-orange.svg
 [swift-url]: https://swift.org/
 [license-image]: https://img.shields.io/badge/License-MIT-blue.svg
 [license-url]: LICENSE
