@@ -52,8 +52,8 @@ class InterfaceController: WKInterfaceController {
 
 extension InterfaceController: WatchShakerDelegate
 {
-    func watchShakerDidShake(_ watchShaker: WatchShaker) {
-        print("YOU HAVE SHAKEN YOUR ⌚️⌚️⌚️")
+    func watchShaker(_ watchShaker: WatchShaker, didShakeWith sensibility: ShakeSensibility) {
+        print("I'm shook! ⌚️⌚️⌚️")
     }
 
     func watchShaker(_ watchShaker: WatchShaker, didFailWith error: Error) {
