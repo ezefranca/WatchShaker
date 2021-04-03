@@ -5,7 +5,6 @@
 //  Created by Ezequiel on 09/12/16.
 //  Copyright © 2016 Ezequiel França @ezefranca. All rights reserved.
 //
-
 import Foundation
 import CoreMotion
 
@@ -17,7 +16,6 @@ import CoreMotion
 /// - shakeSensibilityNormal: Normal shake sensibility
 /// - shakeSensibilityHard: Hard shake sensibility
 /// - shakeSensibilityHardest: Hardest shake sensibility
-
 public enum ShakeSensibility: Double {
     public typealias RawValue = Double
     case shakeSensibilitySoftest = 0.1
@@ -94,6 +92,18 @@ public class WatchShaker : NSObject
     public func start(delay accelerometerUpdateInterval:Double = 0.02)
     {
         guard motionManager.isAccelerometerAvailable else { return }
+        
+        if motionManager.isDeviceMotionAvailable {
+            print("Motion available")
+            print(motionManager.isGyroAvailable ? "Gyro available" : "Gyro NOT available")
+            print(motionManager.isAccelerometerAvailable ? "Accel available" : "Accel NOT available")
+            print(motionManager.isMagnetometerAvailable ? "Mag available" : "Mag NOT available")
+
+            motionManager.deviceMotionUpdateInterval = 1.0 / 60.0
+            motionManager.showsDeviceMovementDisplay = true
+            motionManager.startDeviceMotionUpdates(using: .xArbitraryZVertical) 
+        }
+        
         motionManager.accelerometerUpdateInterval = accelerometerUpdateInterval
         
         let motionQueue = OperationQueue()
