@@ -14,7 +14,7 @@ import CoreMotion
 ///
 /// - shakeSensibilitySoftest: Softest shake sensibility
 /// - shakeSensibilitySoft: Soft shake sensibility
-/// - shakeSensibilityNormal: ormal shake sensibility
+/// - shakeSensibilityNormal: Normal shake sensibility
 /// - shakeSensibilityHard: Hard shake sensibility
 /// - shakeSensibilityHardest: Hardest shake sensibility
 
@@ -44,14 +44,14 @@ public protocol WatchShakerDelegate
 
 extension WatchShaker  {
     
-    /// threshold
+    /// Threshold
     ///
     /// - Parameter sensibility: set new threshold sensibility
     public func threshold(new sensibility:ShakeSensibility) {
         self.threshold = sensibility.rawValue
     }
     
-    /// delay
+    /// Delay
     ///
     /// - Parameter value: set a new delay value
     public func delay(value:Double) {
@@ -59,10 +59,13 @@ extension WatchShaker  {
     }
 }
 
+public typealias WatchShakerHandler = ((ShakeSensibility?, Error?) -> Void)
 
 public class WatchShaker : NSObject
 {
     public var delegate: WatchShakerDelegate?
+    
+    public var startWatchShakerUpdates: WatchShakerHandler?
     
     fileprivate var motionManager: CMMotionManager!
     fileprivate var lastShakeDate: Date?
@@ -100,6 +103,7 @@ public class WatchShaker : NSObject
             guard err == nil else
             {
                 self.delegate?.watchShaker(self, didFailWith: err!)
+                self.startWatchShakerUpdates?(nil, err!)
                 return
             }
             
@@ -107,6 +111,7 @@ public class WatchShaker : NSObject
             {
                 let e = NSError(domain: "No accelerometer data", code: 666, userInfo: ["No accelerometer data":"info"])
                 self.delegate?.watchShaker(self, didFailWith: e)
+                self.startWatchShakerUpdates?(nil, e)
                 return
             }
             
@@ -122,12 +127,14 @@ public class WatchShaker : NSObject
                     {
                         self.lastShakeDate = Date()
                         self.delegate?.watchShaker(self, didShakeWith: self.sensibility)
+                        self.startWatchShakerUpdates?(self.sensibility, nil)
                     }
                     return
                 }
                 
                 self.lastShakeDate = Date()
                 self.delegate?.watchShaker(self, didShakeWith: self.sensibility)
+                self.startWatchShakerUpdates?(self.sensibility, nil)
             }
         }
     }
