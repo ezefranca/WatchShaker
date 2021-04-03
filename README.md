@@ -14,11 +14,63 @@
 
 ## Installation
 
-#### Manually
+### Swift Package Manager
+
+Once you have your Swift package set up, adding WatchShaker as a dependency is as easy as adding it to the `dependencies` value of your `Package.swift`.
+
+```swift
+dependencies: [
+    .package(url: "https://github.com/ezefranca/WatchShaker.git", .upToNextMajor(from: "1.0.0"))
+]
+```
+
+### Manually
+
 1. Download and drop ```WatchShaker.swift``` in your project to your watch target.  
 2. Congratulations!  
 
 ## Usage example
+
+### Closure Style
+
+```swift
+import WatchKit
+import Foundation
+import WatchShaker
+
+class InterfaceController: WKInterfaceController {
+    
+    var shaker:WatchShaker = WatchShaker(shakeSensibility: .shakeSensibilityNormal, delay: 0.2)
+    
+    override func awake(withContext context: Any?) {
+        super.awake(withContext: context)
+    }
+    
+    override func willActivate() {
+        super.willActivate()
+        
+        shaker.start()
+        
+        shaker.startWatchShakerUpdates = { shakeSensibility, error in
+            
+            guard error == nil else
+            {
+                print(error?.localizedDescription)
+                return
+            }
+            print("I'm shook! ⌚️⌚️⌚️")
+        }
+    }
+    
+    override func didDeactivate() {
+        super.didDeactivate()
+        shaker.stop()
+    }
+
+}
+```
+
+### Delegate Style
 
 ```swift
 import WatchKit
