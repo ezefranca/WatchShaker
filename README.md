@@ -118,14 +118,18 @@ extension InterfaceController: WatchShakerDelegate
 
 If you interested you can get the  `direction` of the shake on the `didShakeWith` method. 
 
-```
-unc watchShaker(_ watchShaker: WatchShaker, didShakeWith sensibility: ShakeSensibility, direction: ShakeDirection) {
+```swift
+func watchShaker(_ watchShaker: WatchShaker, didShakeWith sensibility: ShakeSensibility, 
+                     direction: ShakeDirection) {
     print("I'm shook! ⌚️⌚️⌚️ \(direction)")
 }
 ```
 `ShakeDirection` is a simple enum who gives you `up`, `down`, `left` or `right` direction. The image bellow is the way used to determine what is each direction.
 
-![](https://raw.githubusercontent.com/ezefranca/WatchShaker/master/.utils/direction.png)
+<p align="center">
+<img class="shake" src="https://raw.githubusercontent.com/ezefranca/WatchShaker/master/.utils/direction.png" width="50%" height="50%">
+</p>
+<br>
 
 This gentleman bellow for example, is clearly doing a shake with `ShakeDirection.shakeDirectionRight` 😂
 
