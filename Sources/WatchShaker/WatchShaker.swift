@@ -8,36 +8,110 @@
 import Foundation
 import CoreMotion
 
-
-/// ShakeSensibility
+///  WatchShaker
 ///
-/// - shakeSensibilitySoftest: Softest shake sensibility
-/// - shakeSensibilitySoft: Soft shake sensibility
-/// - shakeSensibilityNormal: Normal shake sensibility
-/// - shakeSensibilityHard: Hard shake sensibility
-/// - shakeSensibilityHardest: Hardest shake sensibility
-public enum ShakeSensibility: Double {
-    public typealias RawValue = Double
-    case shakeSensibilitySoftest = 0.1
-    case shakeSensibilitySoft = 0.7
-    case shakeSensibilityNormal = 1.0
-    case shakeSensibilityHard = 1.2
-    case shakeSensibilityHardest = 2.0
-}
-
-public protocol WatchShakerDelegate
+///  Discussion:
+///  - The WatchShaker object is your entry point to the shake service.
+public class WatchShaker : NSObject
 {
+    public var delegate: WatchShakerDelegate?
+    public var startWatchShakerUpdates: WatchShakerHandler?
+    public private(set) var coordinates: ShakeCoordinates?
     
-    /// Called when Apple Watch are shaked
-    ///
-    /// - Parameter watchShaker: the watch shaker instance
-    func watchShaker(_ watchShaker: WatchShaker, didShakeWith sensibility:ShakeSensibility)
+    fileprivate var motionManager: CMMotionManager!
+    fileprivate var lastShakeDate: Date?
     
-    /// Called when Something are wrong
+    // The threshold for how much acceleration needs to happen before an event will register.
+    fileprivate var threshold:Double
+    fileprivate var sensibility:ShakeSensibility
+    // Time between shakes
+    fileprivate var delay:Double = 0.2
+    
+    /// Class init
     ///
-    /// - Parameter watchShaker: the watch shaker instance
-    /// - Parameter error: error ocurred
-    func watchShaker(_ watchShaker:WatchShaker, didFailWith error: Error)
+    /// - Parameters:
+    ///   - shakeThreshold: The threshold for how much acceleration needs to happen before an event will register.
+    ///   - shakeDelay: Time between shakes
+    
+    public init(shakeSensibility to:ShakeSensibility, delay time:Double) {
+        self.threshold = to.rawValue
+        self.delay = time
+        self.sensibility = to
+        self.lastShakeDate = Date()
+        self.motionManager = CMMotionManager()
+    }
+    
+    /// start
+    ///
+    /// - Parameter accelerometerUpdateInterval: optional: (default is 0.02)
+    public func start(delay accelerometerUpdateInterval:Double = 0.02)
+    {
+        guard motionManager.isAccelerometerAvailable else {
+            debugPrint("isAccelerometerAvailable:   \(motionManager.isAccelerometerAvailable)")
+            return
+        }
+        
+        if motionManager.isDeviceMotionAvailable {
+            
+            debugPrint("isDeviceMotionAvailable:  \(motionManager.isDeviceMotionAvailable)")
+            debugPrint("isGyroAvailable:  \(motionManager.isGyroAvailable)")
+            debugPrint("isAccelerometerAvailable:   \(motionManager.isAccelerometerAvailable)")
+            debugPrint("isMagnetometerAvailable:   \(motionManager.isMagnetometerAvailable)")
+            
+            motionManager.deviceMotionUpdateInterval = 1.0 / 60.0
+            motionManager.showsDeviceMovementDisplay = true
+            motionManager.startDeviceMotionUpdates(using: .xArbitraryZVertical)
+        }
+        
+        motionManager.accelerometerUpdateInterval = accelerometerUpdateInterval
+        
+        let motionQueue = OperationQueue()
+        
+        motionManager.startAccelerometerUpdates(to: motionQueue) { (accelerometerData, err) -> Void in
+                        
+            guard let data = accelerometerData, err == nil else
+            {
+                let e = NSError(domain: "No accelerometer data", code: 666, userInfo: ["No accelerometer data":"info"])
+                self.delegate?.watchShaker(self, didFailWith: err ?? e)
+                self.startWatchShakerUpdates?(nil, nil, err ?? e)
+                return
+            }
+            
+            let valueX = data.acceleration.x
+            let valueY = data.acceleration.y
+            let valueZ = data.acceleration.z
+            
+            self.coordinates = ShakeCoordinates(x: valueX, y: valueY, z: valueZ)
+            
+            let maxValue = fabs(valueX) > fabs(valueY) ? fabs(valueX) : fabs(valueY)
+            
+            if let lastDate = self.lastShakeDate, maxValue > self.threshold, self.compare(lastDate) {
+            
+                self.lastShakeDate = Date()
+                self.didShake()
+            }
+        }
+    }
+    
+    /// stop
+    ///
+    ///
+    public func stop()
+    {
+        motionManager.stopAccelerometerUpdates()
+    }
+    
+    private func compare(_ date: Date) -> Bool {
+        return Date().compare(date.addingTimeInterval(self.delay)) == .orderedDescending
+    }
+    
+    private func didShake() {
+        self.delegate?.watchShaker(self,
+                                   didShakeWith: sensibility,
+                                   direction: .direction(coordinates?.x ?? 0, coordinates?.y ?? 0))
+        
+        self.startWatchShakerUpdates?(self.sensibility, self.coordinates, nil)
+    }
 }
 
 extension WatchShaker  {
@@ -57,103 +131,3 @@ extension WatchShaker  {
     }
 }
 
-public typealias WatchShakerHandler = ((ShakeSensibility?, Error?) -> Void)
-
-public class WatchShaker : NSObject
-{
-    public var delegate: WatchShakerDelegate?
-    
-    public var startWatchShakerUpdates: WatchShakerHandler?
-    
-    fileprivate var motionManager: CMMotionManager!
-    fileprivate var lastShakeDate: Date?
-    // The threshold for how much acceleration needs to happen before an event will register.
-    fileprivate var threshold:Double
-    fileprivate var sensibility:ShakeSensibility
-    // Time between shakes
-    fileprivate var delay:Double = 0.1
-    
-    /// Class init
-    ///
-    /// - Parameters:
-    ///   - shakeThreshold: The threshold for how much acceleration needs to happen before an event will register.
-    ///   - shakeDelay: Time between shakes
-    
-    public init(shakeSensibility to:ShakeSensibility, delay time:Double) {
-        self.threshold = to.rawValue
-        self.delay = time
-        self.sensibility = to
-        self.motionManager = CMMotionManager()
-    }
-    
-    /// start
-    ///
-    /// - Parameter accelerometerUpdateInterval: optional: (default is 0.02)
-    public func start(delay accelerometerUpdateInterval:Double = 0.02)
-    {
-        guard motionManager.isAccelerometerAvailable else { return }
-        
-        if motionManager.isDeviceMotionAvailable {
-            print("Motion available")
-            print(motionManager.isGyroAvailable ? "Gyro available" : "Gyro NOT available")
-            print(motionManager.isAccelerometerAvailable ? "Accel available" : "Accel NOT available")
-            print(motionManager.isMagnetometerAvailable ? "Mag available" : "Mag NOT available")
-
-            motionManager.deviceMotionUpdateInterval = 1.0 / 60.0
-            motionManager.showsDeviceMovementDisplay = true
-            motionManager.startDeviceMotionUpdates(using: .xArbitraryZVertical) 
-        }
-        
-        motionManager.accelerometerUpdateInterval = accelerometerUpdateInterval
-        
-        let motionQueue = OperationQueue()
-        
-        motionManager.startAccelerometerUpdates(to: motionQueue) { (accelerometerData, err) -> Void in
-            
-            guard err == nil else
-            {
-                self.delegate?.watchShaker(self, didFailWith: err!)
-                self.startWatchShakerUpdates?(nil, err!)
-                return
-            }
-            
-            guard let data = accelerometerData else
-            {
-                let e = NSError(domain: "No accelerometer data", code: 666, userInfo: ["No accelerometer data":"info"])
-                self.delegate?.watchShaker(self, didFailWith: e)
-                self.startWatchShakerUpdates?(nil, e)
-                return
-            }
-            
-            let valueX = fabs(data.acceleration.x)
-            let valueY = fabs(data.acceleration.y)
-            let maxValue = valueX > valueY ? valueX : valueY
-            
-            if maxValue > self.threshold
-            {
-                if let lastDate = self.lastShakeDate
-                {
-                    if Date().compare(lastDate.addingTimeInterval(self.delay)) == .orderedDescending
-                    {
-                        self.lastShakeDate = Date()
-                        self.delegate?.watchShaker(self, didShakeWith: self.sensibility)
-                        self.startWatchShakerUpdates?(self.sensibility, nil)
-                    }
-                    return
-                }
-                
-                self.lastShakeDate = Date()
-                self.delegate?.watchShaker(self, didShakeWith: self.sensibility)
-                self.startWatchShakerUpdates?(self.sensibility, nil)
-            }
-        }
-    }
-    
-    /// stop
-    ///
-    ///
-    public func stop()
-    {
-        motionManager.stopAccelerometerUpdates()
-    }
-}

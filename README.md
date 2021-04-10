@@ -20,13 +20,13 @@ Once you have your Swift package set up, adding WatchShaker as a dependency is a
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/ezefranca/WatchShaker.git", .upToNextMajor(from: "1.0.0"))
+    .package(url: "https://github.com/ezefranca/WatchShaker.git", .upToNextMajor(from: "1.0.2"))
 ]
 ```
 
 ### Manually
 
-1. Download and drop ```WatchShaker.swift``` in your project to your watch target.  
+1. Download and drop ```WatchShaker``` folder in your project to your watch target.  
 2. Congratulations!  
 
 ## Usage example
@@ -114,6 +114,20 @@ extension InterfaceController: WatchShakerDelegate
 }
 
 ```
+### Optional Directions
+
+If you interested you can get the  `direction` of the shake on the `didShakeWith` method. 
+
+```
+unc watchShaker(_ watchShaker: WatchShaker, didShakeWith sensibility: ShakeSensibility, direction: ShakeDirection) {
+    print("I'm shook! ⌚️⌚️⌚️ \(direction)")
+}
+```
+`ShakeDirection` is a simple enum who gives you `up`, `down`, `left` or `right` direction. The image bellow is the way used to determine what is each direction.
+
+![](https://raw.githubusercontent.com/ezefranca/WatchShaker/master/.utils/direction.png)
+
+This gentleman bellow for example, is clearly doing a shake with `ShakeDirection.shakeDirectionRight` 😂
 
 ![](https://raw.githubusercontent.com/ezefranca/WatchShaker/master/.utils/applewatch.gif)
 
