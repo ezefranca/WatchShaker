@@ -3,9 +3,13 @@
 
 [![Swift Version][swift-image]][swift-url] [![Platform](https://img.shields.io/cocoapods/p/WatchShaker.svg?style=flat)](http://cocoadocs.org/docsets/WatchShaker)
 
+<p align="center">
 <img src="https://raw.githubusercontent.com/ezefranca/WatchShaker/master/.utils/bwshaker.jpg" width="400" height="300" />
+ <br>
+  WatchShaker is a watchOS helper to get your ⌚️ shake movements
+</p>
 
- WatchShaker is a watchOS helper to get your ⌚️ shake movements
+
 
 ## Requirements
 
@@ -26,7 +30,7 @@ dependencies: [
 
 ### Manually
 
-1. Download and drop ```WatchShaker``` folder in your project to your watch target.  
+1. Download and drop [```WatchShaker```](https://github.com/ezefranca/WatchShaker/tree/main/Sources) folder in your project to your watch target.  
 2. Congratulations!  
 
 ## Usage example
@@ -133,7 +137,10 @@ func watchShaker(_ watchShaker: WatchShaker, didShakeWith sensibility: ShakeSens
 
 This gentleman bellow for example, is clearly doing a shake with `ShakeDirection.shakeDirectionRight` 😂
 
-![](https://raw.githubusercontent.com/ezefranca/WatchShaker/master/.utils/applewatch.gif)
+<p align="center">
+<img class="shake" src="https://raw.githubusercontent.com/ezefranca/WatchShaker/master/.utils/applewatch.gif" width="50%" height="50%">
+</p>
+<br>
 
 ## Contribute
 
