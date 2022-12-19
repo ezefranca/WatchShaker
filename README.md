@@ -39,6 +39,28 @@ dependencies: [
 
 ## Usage example
 
+### @StateObject style
+
+```swift
+import SwiftUI
+import WatchShaker
+
+struct ContentView: View {
+    
+    @StateObject var shaker:WatchShaker = WatchShaker(shakeSensibility: .shakeSensibilityNormal, delay: 0.2)
+    
+    var body: some View {
+        VStack {
+            if shaker.isShakerAvailable {
+                Text("I'm shook! ⌚️⌚️⌚️")
+                Text("\(shaker.shake.sensibility)")
+                Text("\(shaker.shake.direction)")
+            }
+        }
+    }
+}
+```
+
 ### Closure Style
 
 ```swift
