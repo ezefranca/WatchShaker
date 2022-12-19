@@ -12,6 +12,7 @@ import CoreMotion
 ///
 ///  Discussion:
 ///  - The WatchShaker object is your entry point to the shake service.
+#if os(watchOS)
 public class WatchShaker : NSObject
 {
     public var delegate: WatchShakerDelegate?
@@ -139,4 +140,4 @@ extension WatchShaker  {
         self.delay = value
     }
 }
-
+#endif

@@ -19,6 +19,7 @@
 
 import Foundation
 
+#if os(watchOS)
 public enum ShakeDirection {
     
     case shakeDirectionUp
@@ -51,4 +52,4 @@ public enum ShakeDirection {
         return ShakeDirection.shakeDirectionUnknow
     }
 }
-
+#endif

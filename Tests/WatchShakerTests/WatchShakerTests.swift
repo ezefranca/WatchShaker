@@ -1,6 +1,7 @@
 import XCTest
 @testable import WatchShaker
 
+#if os(watchOS)
 final class WatchShakerTests: XCTestCase {
     func testInstance() throws {
         // This is an example of a functional test case.
@@ -14,3 +15,4 @@ final class WatchShakerTests: XCTestCase {
         XCTAssertTrue(sut.isShakerAvailable)
     }
 }
+#endif

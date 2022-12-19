@@ -4,7 +4,7 @@
 //
 //  Created by Ezequiel França on 09/04/21.
 //
-
+#if os(watchOS)
 /// ShakeSensibility
 ///
 /// - shakeSensibilitySoftest: Softest shake sensibility
@@ -20,3 +20,4 @@ public enum ShakeSensibility: Double {
     case shakeSensibilityHard = 1.2
     case shakeSensibilityHardest = 2.0
 }
+#endif
