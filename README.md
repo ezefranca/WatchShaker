@@ -2,6 +2,9 @@
 > Simple motion detector for ⌚️ (watchOS) shake gesture.
 
 [![Swift Version][swift-image]][swift-url] [![Platform](https://img.shields.io/cocoapods/p/WatchShaker.svg?style=flat)](http://cocoadocs.org/docsets/WatchShaker)
+
+![github workflow](https://github.com/ezefranca/WatchShaker/actions/workflows/swift.yml/badge.svg)
+
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5224580.svg)](https://doi.org/10.5281/zenodo.5224580)
 
 <p align="center">
@@ -15,7 +18,7 @@
 ## Requirements
 
 - watchOS 6.0+
-- Xcode 11.0+
+- Xcode 14.0+
 
 ## Installation
 
@@ -25,7 +28,7 @@ Once you have your Swift package set up, adding WatchShaker as a dependency is a
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/ezefranca/WatchShaker.git", .upToNextMajor(from: "1.0.2"))
+    .package(url: "https://github.com/ezefranca/WatchShaker.git")
 ]
 ```
 
