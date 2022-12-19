@@ -1,11 +1,11 @@
 # WatchShaker
 > Simple motion detector for ⌚️ (watchOS) shake gesture.
 
-[![Swift Version][swift-image]][swift-url] [![Platform](https://img.shields.io/cocoapods/p/WatchShaker.svg?style=flat)](http://cocoadocs.org/docsets/WatchShaker)
-
+[![Swift Version][swift-image]][swift-url]
+![Platform](https://img.shields.io/cocoapods/p/WatchShaker.svg?style=flat)](http://cocoadocs.org/docsets/WatchShaker)
 ![github workflow](https://github.com/ezefranca/WatchShaker/actions/workflows/swift.yml/badge.svg)
-
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5224580.svg)](https://doi.org/10.5281/zenodo.5224580)
+![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5224580.svg)](https://doi.org/10.5281/zenodo.5224580)
+[![License][license-image]][license-url]
 
 <p align="center">
 <img src="https://raw.githubusercontent.com/ezefranca/WatchShaker/master/.utils/bwshaker.jpg" width="400" height="300" />
@@ -178,11 +178,11 @@ Ezequiel França – [@ezefranca](https://twitter.com/ezefranca) and all awesome
 
 Distributed under the MIT license. See ``LICENSE`` for more information.
 
-[swift-image]:https://img.shields.io/badge/swift-5.1-orange.svg
 [swift-url]: https://swift.org/
 [license-image]: https://img.shields.io/badge/License-MIT-blue.svg
-[license-url]: LICENSE
 [travis-image]: https://img.shields.io/travis/dbader/node-datadog-metrics/master.svg?style=flat-square
 [travis-url]: https://travis-ci.org/dbader/node-datadog-metrics
 [codebeat-image]: https://codebeat.co/badges/c19b47ea-2f9d-45df-8458-b2d952fe9dad
 [codebeat-url]: https://codebeat.co/projects/github-com-vsouza-awesomeios-com
+[swift-image]:https://img.shields.io/badge/swift-5.5-orange.svg
+[license-url]: https://github.com/git/git-scm.com/blob/main/MIT-LICENSE.txt
