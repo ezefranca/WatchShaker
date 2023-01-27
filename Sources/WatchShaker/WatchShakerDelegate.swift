@@ -1,10 +1,3 @@
-//
-//  WatchShakerDelegate.swift
-//  
-//
-//  Created by Ezequiel França on 09/04/21.
-//
-#if os(watchOS)
 /// @protocol WatchShakerDelegate
 ///
 /// Discussion
@@ -28,4 +21,3 @@ extension WatchShakerDelegate {
         self.watchShaker(watchShaker, didShakeWith: sensibility, direction: .shakeDirectionUnknow)
     }
 }
-#endif

@@ -174,6 +174,8 @@ We would love for you to contribute to **WatchShaker**, check the ``LICENSE`` fi
 
 ## Meta
 
+Docs: [Here](http://ezefranca.com/WatchShaker/docs/documentation/watchshaker/)
+
 Ezequiel França – [@ezefranca](https://twitter.com/ezefranca) and all awesome [Contributors](https://github.com/ezefranca/WatchShaker/graphs/contributors)
 
 Distributed under the MIT license. See ``LICENSE`` for more information.

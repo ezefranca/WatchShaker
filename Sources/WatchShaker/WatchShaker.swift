@@ -1,10 +1,3 @@
-//
-//  WatchShaker.swift
-//  WatchShaker
-//
-//  Created by Ezequiel on 09/12/16.
-//  Copyright © 2016 Ezequiel França @ezefranca. All rights reserved.
-//
 import Foundation
 import CoreMotion
 
@@ -12,7 +5,6 @@ import CoreMotion
 ///
 ///  Discussion:
 ///  - The WatchShaker object is your entry point to the shake service.
-#if os(watchOS)
 public class WatchShaker : NSObject
 {
     public var delegate: WatchShakerDelegate?
@@ -103,7 +95,7 @@ public class WatchShaker : NSObject
     
     /// stop
     ///
-    ///
+    /// Stops from receive updates
     public func stop()
     {
         motionManager.stopAccelerometerUpdates()
@@ -140,4 +132,3 @@ extension WatchShaker  {
         self.delay = value
     }
 }
-#endif

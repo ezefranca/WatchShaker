@@ -5,11 +5,14 @@ import PackageDescription
 
 let package = Package(
     name: "WatchShaker",
-    platforms: [.watchOS(.v6)],
+    platforms: [.watchOS(.v8)],
     products: [
         .library(
         name: "WatchShaker",
         targets: ["WatchShaker"])
+    ],
+    dependencies: [
+        .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.0.0"),
     ],
     targets: [
         .target(
@@ -22,4 +25,3 @@ let package = Package(
     ],
     swiftLanguageVersions: [SwiftVersion.v5]
 )
-

@@ -1,10 +1,3 @@
-//
-//  ShakeCoordinates.swift
-//  
-//
-//  Created by Ezequiel França on 09/04/21.
-//
-#if os(watchOS)
 /// ShakeCoordinates
 ///
 ///
@@ -14,4 +7,3 @@ public struct ShakeCoordinates {
     public var y: Double
     public var z: Double
 }
-#endif

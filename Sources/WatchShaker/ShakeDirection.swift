@@ -1,9 +1,4 @@
-//
-//  ShakeDirection.swift
-//  
-//
-//  Created by Ezequiel França on 09/04/21.
-//
+import Foundation
 
 /// ShakeDirection
 ///
@@ -16,10 +11,6 @@
 /// - shakeDirectionLeft: x variation < 0 (Like a pull a door to you)
 ///
 /// - shakeDirectionUnknow: When it's not possible to determine
-
-import Foundation
-
-#if os(watchOS)
 public enum ShakeDirection {
     
     case shakeDirectionUp
@@ -52,4 +43,3 @@ public enum ShakeDirection {
         return ShakeDirection.shakeDirectionUnknow
     }
 }
-#endif
