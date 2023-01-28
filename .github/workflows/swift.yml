@@ -1,7 +1,4 @@
-# This workflow will build a Swift project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-swift
-
-name: Swift
+name: Build and Test
 
 on:
   push:
@@ -15,8 +12,11 @@ jobs:
     runs-on: macos-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Build
-      run: swift build -v
-    - name: Run tests
-      run: swift test -v
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Install dependencies
+      run: swift package resolve
+    - name: Build for watchOS
+      run: swift build -c release -Xswiftc "-target" -Xswiftc "watchos" -v
+    - name: Test for watchOS
+      run: swift test -c release -Xswiftc "-target" -Xswiftc "watchos" -v
