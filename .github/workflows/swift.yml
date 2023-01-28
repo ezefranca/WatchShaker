@@ -1,4 +1,4 @@
-name: Build and Test
+name: Build and Test Apple Watch Package
 
 on:
   push:
@@ -8,15 +8,22 @@ on:
 
 jobs:
   build:
-
     runs-on: macos-latest
 
     steps:
-    - name: Checkout
+    - name: Checkout code
       uses: actions/checkout@v3
-    - name: Install dependencies
-      run: swift package resolve
-    - name: Build for watchOS
-      run: swift build -c release -Xswiftc "-target" -Xswiftc "watchos" -v
-    - name: Test for watchOS
-      run: swift test -c release -Xswiftc "-target" -Xswiftc "watchos" -v
+    - name: Install Xcode and Simulator
+      uses: muukii/actions-xcode-install-simulator@1.0.0
+      with:
+        ios_version: 13.7
+    - name: Show Simulators
+      run: xcrun simctl list
+    - name: Create Simulator
+      run: xcrun simctl create "watchOS 6.2 Simulator" com.apple.watchsimulator.watchOS-6-2
+    - name: Boot Simulator
+      run: xcrun simctl boot "watchOS 6.2 Simulator"
+    - name: Build package for watchOS
+      run: swift build --product WatchShaker --destination='name=watchOS 6.2 Simulator,OS=6.2' -c release
+    - name: Test package for watchOS
+      run: swift test --product WatchShakerTests --destination='name
