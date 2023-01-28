@@ -1,4 +1,4 @@
-name: Build Apple Watch Package
+name: Build and Test
 
 on:
   push:
@@ -12,11 +12,11 @@ jobs:
     runs-on: macos-latest
 
     steps:
-    - name: Checkout code
+    - name: Checkout
       uses: actions/checkout@v3
     - name: Install dependencies
       run: swift package resolve
-    - name: Build package
-      run: swift build -c release --destination watchos -Xswiftc -target -Xswiftc arm64-apple-watchos7.0 -v
-    - name: Test package
-      run: swift test -c release --destination watchos -Xswiftc -target -Xswiftc arm64-apple-watchos7.0 -v
+    - name: Build for watchOS
+      run: swift build -c release -Xswiftc "-target" -Xswiftc "watchos" -v
+    - name: Test for watchOS
+      run: swift test -c release -Xswiftc "-target" -Xswiftc "watchos" -v
