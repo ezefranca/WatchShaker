@@ -16,7 +16,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Build
-      run: swift build -v
+    - name: Install Xcode
+      uses: actions/setup-xcode@v2
+      with:
+        xcode-version: 14.0
+    - name: Build package
+      run: swift build -c release --destination watchos
     - name: Run tests
-      run: swift test -v
+      run: swift test -c release --destination watchos
+
