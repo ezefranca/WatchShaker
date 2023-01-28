@@ -1,6 +1,4 @@
-# This workflow will build a Swift package for watchOS
-
-name: Swift Package - watchOS build
+name: Build Apple Watch Package
 
 on:
   push:
@@ -14,8 +12,11 @@ jobs:
     runs-on: macos-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v3
     - name: Install dependencies
-      run: swift package update
-    - name: Build watchOS target
-      run: swift build -c release -v --destination watchos
+      run: swift package resolve
+    - name: Build package
+      run: swift build -c release --destination watchos -Xswiftc -target -Xswiftc arm64-apple-watchos7.0 -v
+    - name: Test package
+      run: swift test -c release --destination watchos -Xswiftc -target -Xswiftc arm64-apple-watchos7.0 -v
