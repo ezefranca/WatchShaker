@@ -15,11 +15,6 @@ jobs:
     runs-on: macos-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Install Xcode
-      uses: actions/setup-xcode@v2
-      with:
-        xcode-version: 14.0
     - name: Build package
       run: swift build -c release --destination watchos
     - name: Run tests
