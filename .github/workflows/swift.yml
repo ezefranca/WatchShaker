@@ -1,4 +1,5 @@
 name: Build and Test Apple Watch Package
+
 on:
   push:
     branches: [ "main" ]
@@ -16,16 +17,17 @@ jobs:
       uses: muukii/actions-xcode-install-simulator@1.0.0
       with:
         ios_version: 13.7
-    - name: Create Simulator
+    - name: Get available simulators
       run: |
         AVAILABLE_SIMULATORS=($(xcrun simctl list devices | grep "watchOS" | awk '{print $2}'))
-        xcrun simctl create "watchOS Simulator" ${AVAILABLE_SIMULATORS[0]}
+        echo "Available simulators: ${AVAILABLE_SIMULATORS[@]}"
+    - name: Create Simulator
+      run: |
+        if [[ ! -z ${AVAILABLE_SIMULATORS[@]} ]]; then
+          xcrun simctl create "watchOS Simulator" ${AVAILABLE_SIMULATORS[0]}
+        else
+          echo "No watchOS simulators available."
     - name: Build package for watchOS
-      run: |
-        xcrun simctl list devices
-        DEVICE_NAME=$(xcrun simctl list devices | grep "watchOS Simulator" | awk '{print $5}')
-        swift build --product WatchShaker --destination="$DEVICE_NAME" -c release
+      run: swift build --product WatchShaker --destination=$(xcrun simctl list | grep "watchOS Simulator" | awk '{print $6}') -c release
     - name: Test package for watchOS
-      run: |
-        DEVICE_NAME=$(xcrun simctl list devices | grep "watchOS Simulator" | awk '{print $5}')
-        swift test --product WatchShakerTests --destination="$DEVICE_NAME" -c release
+      run: swift test --product WatchShakerTests --destination=$(xcrun simctl list | grep "watchOS Simulator" | awk '{print $6}') -c release
