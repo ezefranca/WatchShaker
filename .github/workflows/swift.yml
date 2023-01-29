@@ -1,5 +1,4 @@
 name: Build and Test Apple Watch Package
-
 on:
   push:
     branches: [ "main" ]
@@ -17,13 +16,16 @@ jobs:
       uses: muukii/actions-xcode-install-simulator@1.0.0
       with:
         ios_version: 13.7
-    - name: Show Simulators
-      run: xcrun simctl list
     - name: Create Simulator
-      run: xcrun simctl create "watchOS 6.2 Simulator" com.apple.watchsimulator.watchOS-6-2
-    - name: Boot Simulator
-      run: xcrun simctl boot "watchOS 6.2 Simulator"
+      run: |
+        AVAILABLE_SIMULATORS=($(xcrun simctl list devices | grep "watchOS" | awk '{print $2}'))
+        xcrun simctl create "watchOS Simulator" ${AVAILABLE_SIMULATORS[0]}
     - name: Build package for watchOS
-      run: swift build --product WatchShaker --destination='name=watchOS 6.2 Simulator,OS=6.2' -c release
+      run: |
+        xcrun simctl list devices
+        DEVICE_NAME=$(xcrun simctl list devices | grep "watchOS Simulator" | awk '{print $5}')
+        swift build --product WatchShaker --destination="$DEVICE_NAME" -c release
     - name: Test package for watchOS
-      run: swift test --product WatchShakerTests --destination='name
+      run: |
+        DEVICE_NAME=$(xcrun simctl list devices | grep "watchOS Simulator" | awk '{print $5}')
+        swift test --product WatchShakerTests --destination="$DEVICE_NAME" -c release
