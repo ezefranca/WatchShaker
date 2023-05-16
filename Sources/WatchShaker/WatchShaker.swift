@@ -88,7 +88,9 @@ public class WatchShaker : NSObject
             if let lastDate = self.lastShakeDate, maxValue > self.threshold, self.compare(lastDate) {
             
                 self.lastShakeDate = Date()
-                self.didShake()
+                DispatchQueue.main.async {
+                    self.didShake()
+                }
             }
         }
     }
