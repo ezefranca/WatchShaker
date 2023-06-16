@@ -12,7 +12,7 @@ public class WatchShaker : NSObject
     public private(set) var coordinates: ShakeCoordinates?
     
     @Published public var isShakerAvailable: Bool = false
-    @Published public var shake: Shake = .init(sensibility: .shakeSensibilityNormal, direction: .shakeDirectionDown)
+    @Published public var shake: Shake = .init(sensibility: .shakeSensibilityNormal, direction: .shakeDirectionDown, time: Date.now)
     
     fileprivate var motionManager: CMMotionManager!
     fileprivate var lastShakeDate: Date?
@@ -113,7 +113,7 @@ public class WatchShaker : NSObject
                                    direction: .direction(coordinates?.x ?? 0, coordinates?.y ?? 0))
         
         self.shake = .init(sensibility: sensibility,
-                           direction: .direction(coordinates?.x ?? 0, coordinates?.y ?? 0))
+                           direction: .direction(coordinates?.x ?? 0, coordinates?.y ?? 0), time: lastShakeDate? ?? Date.now)
         self.startWatchShakerUpdates?(self.sensibility, self.coordinates, nil)
     }
 }
