@@ -113,7 +113,7 @@ public class WatchShaker : NSObject
                                    direction: .direction(coordinates?.x ?? 0, coordinates?.y ?? 0))
         
         self.shake = .init(sensibility: sensibility,
-                           direction: .direction(coordinates?.x ?? 0, coordinates?.y ?? 0), time: lastShakeDate? ?? Date.now)
+                           direction: .direction(coordinates?.x ?? 0, coordinates?.y ?? 0), time: lastShakeDate ?? Date.now)
         self.startWatchShakerUpdates?(self.sensibility, self.coordinates, nil)
     }
 }
