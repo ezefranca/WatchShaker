@@ -5,7 +5,7 @@ import CoreMotion
 ///
 ///  Discussion:
 ///  - The WatchShaker object is your entry point to the shake service.
-public class WatchShaker : NSObject
+public class WatchShaker : NSObject, ObservableObject
 {
     public var delegate: WatchShakerDelegate?
     public var startWatchShakerUpdates: WatchShakerHandler?
