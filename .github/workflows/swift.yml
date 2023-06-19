@@ -13,21 +13,13 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
-    - name: Install Xcode and Simulator
-      uses: muukii/actions-xcode-install-simulator@1.0.0
+    - name: Launch watchOS Simulator
+      uses: futureware-tech/simulator-action@v2
       with:
-        ios_version: 13.7
-    - name: Get available simulators
-      run: |
-        AVAILABLE_SIMULATORS=($(xcrun simctl list devices | grep "watchOS" | awk '{print $2}'))
-        echo "Available simulators: ${AVAILABLE_SIMULATORS[@]}"
-    - name: Create Simulator
-      run: |
-        if [[ ! -z ${AVAILABLE_SIMULATORS[@]} ]]; then
-          xcrun simctl create "watchOS Simulator" ${AVAILABLE_SIMULATORS[0]}
-        else
-          echo "No watchOS simulators available."
+        model: "Apple Watch Series 7 (45mm)"
+        os: 'watchOS'
     - name: Build package for watchOS
-      run: swift build --product WatchShaker --destination=$(xcrun simctl list | grep "watchOS Simulator" | awk '{print $6}') -c release
-    - name: Test package for watchOS
-      run: swift test --product WatchShakerTests --destination=$(xcrun simctl list | grep "watchOS Simulator" | awk '{print $6}') -c release
+      run: |
+        xcodebuild build \
+          -scheme WatchShaker \
+          -destination "platform=watchOS Simulator,name=Apple Watch Series 7 (45mm),OS=9.1"
