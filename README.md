@@ -157,7 +157,7 @@ func watchShaker(_ watchShaker: WatchShaker, didShakeWith sensibility: ShakeSens
 `ShakeDirection` is a simple enum who gives you `up`, `down`, `left` or `right` direction. The image bellow is the way used to determine what is each direction.
 
 <p align="center">
-<img class="shake" src="https://raw.githubusercontent.com/ezefranca/WatchShaker/master/.utils/direction.png" width="50%" height="50%">
+<img class="shake" src="https://raw.githubusercontent.com/ezefranca/WatchShaker/master/.utils/apple_watch_directions.png" width="50%" height="50%">
 </p>
 <br>
 
