@@ -1,11 +1,8 @@
+
 # WatchShaker
 > Simple motion detector for ⌚️ (watchOS) shake gesture.
 
-[![Swift Version][swift-image]][swift-url]
-[![Platform](https://img.shields.io/cocoapods/p/WatchShaker.svg?style=flat)](http://cocoadocs.org/docsets/WatchShaker)
-![github workflow](https://github.com/ezefranca/WatchShaker/actions/workflows/swift.yml/badge.svg)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5224580.svg)](https://doi.org/10.5281/zenodo.5224580)
-[![License][license-image]][license-url]
+[![Swift Version][swift-image]][swift-url] [![Platform](https://img.shields.io/cocoapods/p/WatchShaker.svg?style=flat)](http://cocoadocs.org/docsets/WatchShaker) ![github workflow](https://github.com/ezefranca/WatchShaker/actions/workflows/swift.yml/badge.svg) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5224580.svg)](https://doi.org/10.5281/zenodo.5224580) [![License][license-image]][license-url]
 
 <p align="center">
 <img src="https://raw.githubusercontent.com/ezefranca/WatchShaker/master/.utils/bwshaker.jpg" width="400" height="300" />
@@ -13,12 +10,12 @@
   WatchShaker is a watchOS helper to get your ⌚️ shake movements
 </p>
 
-
+This project was presented at **ICECCME 2024**. The work is available (soon) at [IEEE Xplore](https://ieeexplore.ieee.org). You can also find a preprint on [Papers with Code](https://cs.paperswithcode.com/paper/experimental-shake-gesture-detection-api-for).
 
 ## Requirements
 
-- watchOS 6.0+
-- Xcode 14.0+
+- watchOS 7.0+
+- Xcode 15.0+
 
 ## Installation
 
@@ -106,7 +103,6 @@ class InterfaceController: WKInterfaceController {
 import WatchKit
 import Foundation
 
-
 class InterfaceController: WKInterfaceController {
 
     override func awake(withContext context: Any?) {
@@ -142,11 +138,11 @@ extension InterfaceController: WatchShakerDelegate
         print(error.localizedDescription)
     }
 }
-
 ```
+
 ### Optional Directions
 
-If you interested you can get the  `direction` of the shake on the `didShakeWith` method. 
+If you are interested, you can get the  `direction` of the shake in the `didShakeWith` method. 
 
 ```swift
 func watchShaker(_ watchShaker: WatchShaker, didShakeWith sensibility: ShakeSensibility, 
@@ -154,14 +150,14 @@ func watchShaker(_ watchShaker: WatchShaker, didShakeWith sensibility: ShakeSens
     print("I'm shook! ⌚️⌚️⌚️ \(direction)")
 }
 ```
-`ShakeDirection` is a simple enum who gives you `up`, `down`, `left` or `right` direction. The image bellow is the way used to determine what is each direction.
+`ShakeDirection` is a simple enum that gives you `up`, `down`, `left`, or `right` directions. The image below shows how each direction is determined.
 
 <p align="center">
 <img class="shake" src="https://raw.githubusercontent.com/ezefranca/WatchShaker/master/.utils/apple_watch_directions.png" width="50%" height="50%">
 </p>
 <br>
 
-This gentleman bellow for example, is clearly doing a shake with `ShakeDirection.shakeDirectionRight` 😂
+This gentleman below, for example, is clearly doing a shake with `ShakeDirection.shakeDirectionRight` 😂
 
 <p align="center">
 <img class="shake" src="https://raw.githubusercontent.com/ezefranca/WatchShaker/master/.utils/applewatch.gif" width="50%" height="50%">
@@ -170,13 +166,13 @@ This gentleman bellow for example, is clearly doing a shake with `ShakeDirection
 
 ## Contribute
 
-We would love for you to contribute to **WatchShaker**, check the ``LICENSE`` file for more info.
+We would love for you to contribute to **WatchShaker**! Check the ``LICENSE`` file for more info.
 
 ## Meta
 
 Docs: [Here](http://ezefranca.com/WatchShaker/docs/documentation/watchshaker/)
 
-Ezequiel França – [@ezefranca](https://twitter.com/ezefranca) and all awesome [Contributors](https://github.com/ezefranca/WatchShaker/graphs/contributors)
+Ezequiel França – [@ezefranca](https://twitter.com/ezefranca) and all the awesome [Contributors](https://github.com/ezefranca/WatchShaker/graphs/contributors)
 
 Distributed under the MIT license. See ``LICENSE`` for more information.
 
