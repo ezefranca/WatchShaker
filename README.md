@@ -10,7 +10,7 @@
   WatchShaker is a watchOS helper to get your ⌚️ shake movements
 </p>
 
-This project was presented at **ICECCME 2024**. The work is available (soon) at [IEEE Xplore](https://ieeexplore.ieee.org). You can also find a preprint on [Papers with Code](https://cs.paperswithcode.com/paper/experimental-shake-gesture-detection-api-for).
+This project was presented at **ICECCME 2024**. The work is available at [IEEE Xplore](https://doi.org/10.1109/iceccme62383.2024.10796862). You can also find a preprint on [Papers with Code](https://cs.paperswithcode.com/paper/experimental-shake-gesture-detection-api-for).
 
 ## Requirements
 
