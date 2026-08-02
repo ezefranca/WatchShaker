@@ -81,14 +81,16 @@ Create the stream before starting if the first event must not be missed. Cancell
 
 ## Tune detection
 
-Start with ``ShakeSensitivity/normal`` and the default 50 Hz sampling rate. Increase sensitivity for gentler movement or decrease it when ordinary wrist movement causes false positives.
+Start with ``ShakeSensitivity/normal`` and the balanced sampling and detection presets. Increase sensitivity for gentler movement or decrease it when ordinary wrist movement causes false positives.
 
 ```swift
 let configuration = WatchShakerConfiguration(
     sensitivity: .high,
-    updateInterval: 1.0 / 50.0,
-    cooldown: 0.4
+    sampling: .balanced,
+    detection: .conservative
 )
 ```
+
+Use `.responsive` detection when reaction time matters most, or `.conservative` when duplicate suppression and directional certainty matter more. See <doc:Configuration> before using custom tuning.
 
 Test on each supported watch size and on both wrist orientations. Direction is a convenience derived from the dominant x/y axis; use ``Shake/acceleration`` when the exact vector matters.

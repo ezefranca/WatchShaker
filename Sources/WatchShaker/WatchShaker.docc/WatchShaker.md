@@ -24,6 +24,7 @@ Use ``WatchShaker/shakes(bufferingPolicy:)`` when structured concurrency or mult
 ### Essentials
 
 - <doc:GettingStarted>
+- <doc:Configuration>
 - <doc:DetectionModel>
 - <doc:BackgroundMonitoring>
 - <doc:MigrationGuide>

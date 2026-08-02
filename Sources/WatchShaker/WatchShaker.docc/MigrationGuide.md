@@ -21,13 +21,24 @@ let shaker = WatchShaker(
 let shaker = WatchShaker(
     configuration: .init(
         sensitivity: .normal,
-        cooldown: 0.2
+        detection: .responsive
     )
 )
 try shaker.start(in: .foreground)
 ```
 
 The old initializer remains as a deprecated bridge.
+
+## Replace raw detector constants
+
+The current initializer uses semantic presets so detector implementation details do not dominate ordinary call sites.
+
+| Previous configuration | Replacement |
+| --- | --- |
+| `updateInterval` | ``WatchShakerConfiguration/sampling`` |
+| `cooldown`, `peakCaptureDuration`, `releaseThresholdRatio`, `directionDominance` | ``WatchShakerConfiguration/detection`` |
+
+Use the balanced defaults first. If physical-device measurements require exact values, create a validated custom sampling rate or detection profile as described in <doc:Configuration>.
 
 ## Use Observation in SwiftUI
 

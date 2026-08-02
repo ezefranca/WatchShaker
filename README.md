@@ -11,7 +11,7 @@ Native shake detection for Apple Watch, designed for Swift 6 and SwiftUI.
 
 WatchShaker turns gravity-free Core Motion samples into deliberate, debounced shake events. It offers a view-lifecycle SwiftUI modifier, observable state, broadcast async streams, imperative callbacks, and capability-aware extended runtime support.
 
-## Why WatchShaker 2
+## Why WatchShaker
 
 - Swift 6 strict-concurrency safety with main-actor observable state
 - Native SwiftUI lifecycle through `.onWatchShake`
@@ -110,13 +110,14 @@ struct MotionView: View {
 ```swift
 let configuration = WatchShakerConfiguration(
     sensitivity: .normal,
-    updateInterval: 1.0 / 50.0,
-    cooldown: 0.3,
-    peakCaptureDuration: 0.1
+    sampling: .balanced,
+    detection: .balanced
 )
 ```
 
-Higher sensitivity (`.high` or `.veryHigh`) recognizes gentler gestures. Begin with `.normal` and tune on real hardware with the movement your app actually teaches.
+Higher sensitivity (`.high` or `.veryHigh`) recognizes gentler gestures. Sampling offers `.lowPower`, `.balanced`, and `.responsive`; detection offers `.responsive`, `.balanced`, and `.conservative` profiles. Begin with the balanced defaults and tune on real hardware with the movement your app actually teaches.
+
+Raw detector constants are kept out of the normal initializer. Applications with measured, hardware-specific requirements can create validated custom sampling and detection values. See [Configuration](Sources/WatchShaker/WatchShaker.docc/Configuration.md).
 
 ## Background execution
 
@@ -134,13 +135,14 @@ See [Background Monitoring](Sources/WatchShaker/WatchShaker.docc/BackgroundMonit
 
 ## Migrating from 1.x
 
-Version 2 intentionally removes ambiguous fake state and adopts modern naming. Deprecated aliases cover many 1.x spellings, but lifecycle and event handling should be migrated deliberately.
+The current API removes ambiguous fake state and adopts modern naming. Deprecated aliases cover many 1.x spellings, but lifecycle and event handling should be migrated deliberately.
 
-See the [2.0 Migration Guide](Sources/WatchShaker/WatchShaker.docc/MigrationGuide.md) for a complete mapping.
+See the [Migration Guide](Sources/WatchShaker/WatchShaker.docc/MigrationGuide.md) for a complete mapping.
 
 ## Documentation
 
 - [Getting Started](Sources/WatchShaker/WatchShaker.docc/GettingStarted.md)
+- [Configuration](Sources/WatchShaker/WatchShaker.docc/Configuration.md)
 - [Background Monitoring](Sources/WatchShaker/WatchShaker.docc/BackgroundMonitoring.md)
 - [Migration Guide](Sources/WatchShaker/WatchShaker.docc/MigrationGuide.md)
 - [Detection Model](Sources/WatchShaker/WatchShaker.docc/DetectionModel.md)

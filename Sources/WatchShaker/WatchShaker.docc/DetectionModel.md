@@ -20,4 +20,4 @@ All timing decisions use Core Motion's monotonic sensor timestamp. Wall-clock ch
 
 Direction is derived from the dominant x or y component of the peak acceleration. If neither axis dominates sufficiently—or z-axis movement dominates—the result is ``ShakeDirection/unknown``. This is deliberate: returning `unknown` is safer than presenting a confident but unstable direction.
 
-Use ``WatchShakerConfiguration/directionDominance`` to require more or less separation between axes. Applications that need their own gesture vocabulary can classify ``Shake/acceleration`` directly.
+Choose ``WatchShakerConfiguration/detection`` to tune the detector as a cohesive behavior instead of changing isolated constants. Applications with hardware measurements can supply a validated custom profile. Applications that need their own gesture vocabulary can classify ``Shake/acceleration`` directly.

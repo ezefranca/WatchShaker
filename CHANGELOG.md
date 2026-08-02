@@ -20,6 +20,7 @@ All notable changes to WatchShaker are documented here. The project follows [Sem
 - Replaced `ObservableObject`/`@Published` state with main-actor Observation.
 - Made startup explicit for new initializers and made the latest shake optional.
 - Renamed “sensibility” APIs to the conventional “sensitivity” spelling.
+- Replaced public detector constants with semantic sampling and detection presets, while retaining validated custom tuning.
 
 ### Fixed
 
