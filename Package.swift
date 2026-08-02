@@ -1,24 +1,26 @@
-// swift-tools-version: 5.5
-// The swift-tools-version declares the minimum version of Swift required to build this package.
+// swift-tools-version: 6.0
 
 import PackageDescription
 
 let package = Package(
-    name: "WatchShaker",
-    platforms: [.watchOS(.v8)],
-    products: [
-        .library(
-        name: "WatchShaker",
-        targets: ["WatchShaker"])
-    ],
-    targets: [
-        .target(
-            name: "WatchShaker",
-            path: "Sources"
-        ),
-        .testTarget(
-            name: "WatchShakerTests",
-            dependencies: ["WatchShaker"]),
-    ],
-    swiftLanguageVersions: [SwiftVersion.v5]
+  name: "WatchShaker",
+  platforms: [
+    .watchOS(.v10)
+  ],
+  products: [
+    .library(
+      name: "WatchShaker",
+      targets: ["WatchShaker"]
+    )
+  ],
+  targets: [
+    .target(
+      name: "WatchShaker"
+    ),
+    .testTarget(
+      name: "WatchShakerTests",
+      dependencies: ["WatchShaker"]
+    ),
+  ],
+  swiftLanguageModes: [.v6]
 )

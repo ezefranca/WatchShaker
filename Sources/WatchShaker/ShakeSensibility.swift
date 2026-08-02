@@ -1,15 +1,32 @@
-/// ShakeSensibility
+/// How readily WatchShaker recognizes movement as a shake.
 ///
-/// - shakeSensibilitySoftest: Softest shake sensibility
-/// - shakeSensibilitySoft: Soft shake sensibility
-/// - shakeSensibilityNormal: Normal shake sensibility
-/// - shakeSensibilityHard: Hard shake sensibility
-/// - shakeSensibilityHardest: Hardest shake sensibility
-public enum ShakeSensibility: Double {
-    public typealias RawValue = Double
-    case shakeSensibilitySoftest = 0.1
-    case shakeSensibilitySoft = 0.7
-    case shakeSensibilityNormal = 1.0
-    case shakeSensibilityHard = 1.2
-    case shakeSensibilityHardest = 2.0
+/// Higher sensitivity recognizes gentler movement. Thresholds are calibrated
+/// against gravity-free user acceleration rather than raw accelerometer data.
+public enum ShakeSensitivity: Double, Sendable, Equatable, Codable, CaseIterable {
+  case veryHigh = 0.35
+  case high = 0.65
+  case normal = 1.0
+  case low = 1.35
+  case veryLow = 1.75
+}
+
+/// The pre-2.0 spelling of ``ShakeSensitivity``.
+@available(*, deprecated, renamed: "ShakeSensitivity")
+public typealias ShakeSensibility = ShakeSensitivity
+
+extension ShakeSensitivity {
+  @available(*, deprecated, renamed: "veryHigh")
+  public static var shakeSensibilitySoftest: Self { .veryHigh }
+
+  @available(*, deprecated, renamed: "high")
+  public static var shakeSensibilitySoft: Self { .high }
+
+  @available(*, deprecated, renamed: "normal")
+  public static var shakeSensibilityNormal: Self { .normal }
+
+  @available(*, deprecated, renamed: "low")
+  public static var shakeSensibilityHard: Self { .low }
+
+  @available(*, deprecated, renamed: "veryLow")
+  public static var shakeSensibilityHardest: Self { .veryLow }
 }

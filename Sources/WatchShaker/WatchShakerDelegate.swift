@@ -1,23 +1,49 @@
-/// @protocol WatchShakerDelegate
-///
-/// Discussion
-/// - Delegate for WatchShaker.
-public protocol WatchShakerDelegate
-{
-    /// Called when Apple Watch are shaked
-    ///
-    /// - Parameter watchShaker: the watch shaker instance
-    func watchShaker(_ watchShaker: WatchShaker, didShakeWith sensibility:ShakeSensibility, direction:ShakeDirection)
-    
-    /// Called when Something are wrong
-    ///
-    /// - Parameter watchShaker: the watch shaker instance
-    /// - Parameter error: error ocurred
-    func watchShaker(_ watchShaker:WatchShaker, didFailWith error: Error)
-}
+#if os(watchOS)
+  /// A delegate for imperative WatchKit integrations.
+  @MainActor
+  public protocol WatchShakerDelegate: AnyObject {
+    /// Called when WatchShaker detects a gesture.
+    func watchShaker(_ watchShaker: WatchShaker, didDetect shake: Shake)
 
-extension WatchShakerDelegate {
-    func watchShaker(_ watchShaker: WatchShaker, didShakeWith sensibility:ShakeSensibility, direction:ShakeDirection) {
-        self.watchShaker(watchShaker, didShakeWith: sensibility, direction: .shakeDirectionUnknow)
+    /// Called if the motion or runtime session fails.
+    func watchShaker(_ watchShaker: WatchShaker, didFailWith error: any Error)
+
+    /// The WatchShaker 1.x delegate callback.
+    func watchShaker(
+      _ watchShaker: WatchShaker,
+      didShakeWith sensibility: ShakeSensitivity,
+      direction: ShakeDirection
+    )
+
+    /// The WatchShaker 1.x delegate callback without direction.
+    func watchShaker(
+      _ watchShaker: WatchShaker,
+      didShakeWith sensibility: ShakeSensitivity
+    )
+  }
+
+  extension WatchShakerDelegate {
+    public func watchShaker(_ watchShaker: WatchShaker, didDetect shake: Shake) {
+      self.watchShaker(
+        watchShaker,
+        didShakeWith: shake.sensitivity,
+        direction: shake.direction
+      )
     }
-}
+
+    public func watchShaker(_ watchShaker: WatchShaker, didFailWith error: any Error) {}
+
+    public func watchShaker(
+      _ watchShaker: WatchShaker,
+      didShakeWith sensibility: ShakeSensitivity,
+      direction: ShakeDirection
+    ) {
+      self.watchShaker(watchShaker, didShakeWith: sensibility)
+    }
+
+    public func watchShaker(
+      _ watchShaker: WatchShaker,
+      didShakeWith sensibility: ShakeSensitivity
+    ) {}
+  }
+#endif
