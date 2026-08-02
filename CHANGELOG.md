@@ -2,7 +2,23 @@
 
 All notable changes to WatchShaker are documented here. The project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## [Unreleased]
+
+## [2.0.1] - 2026-08-02
+
+### Added
+
+- Automated deployment of the native DocC experience to GitHub Pages.
+- Search-engine metadata, canonical URLs, a sitemap, and route-specific HTML entry points for DocC.
+- Agent-readable `llms.txt`, `llms-full.txt`, and structured package context alongside the human documentation.
+- Swift Package Index configuration for watchOS compatibility builds and hosted DocC documentation.
+- Live Swift version and platform compatibility badges backed by Swift Package Index build results.
+
+### Changed
+
+- Linked the README to the deployed, native DocC guides and API reference.
+
+## [2.0.0] - 2026-08-02
 
 ### Added
 
@@ -35,3 +51,7 @@ All notable changes to WatchShaker are documented here. The project follows [Sem
 ## 1.0.0 - 2021-08-19
 
 - Initial public release.
+
+[Unreleased]: https://github.com/ezefranca/WatchShaker/compare/2.0.1...HEAD
+[2.0.1]: https://github.com/ezefranca/WatchShaker/compare/2.0.0...2.0.1
+[2.0.0]: https://github.com/ezefranca/WatchShaker/compare/1.0.0...2.0.0

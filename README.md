@@ -46,7 +46,7 @@ Or add it to a package manifest:
 dependencies: [
     .package(
         url: "https://github.com/ezefranca/WatchShaker.git",
-        from: "2.0.0"
+        from: "2.0.1"
     )
 ]
 ```
