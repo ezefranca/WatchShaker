@@ -63,6 +63,25 @@ def seo_shell(template: str, title: str, description: str, canonical_url: str) -
     return template.replace("<title>Documentation</title>", metadata, 1)
 
 
+def landing_shell(template: str, documentation_url: str) -> str:
+    safe_url = html.escape(documentation_url, quote=True)
+    javascript_url = json.dumps(documentation_url)
+    metadata = (
+        "<title>WatchShaker Documentation</title>"
+        '<meta name="description" content="Native, concurrency-safe shake gesture detection for Apple Watch, documented with DocC.">'
+        f'<link rel="canonical" href="{safe_url}">'
+        f'<link rel="alternate" type="text/plain" href="{safe_url.removesuffix("documentation/watchshaker/")}llms.txt" title="WatchShaker documentation for language models">'
+        f'<meta http-equiv="refresh" content="0; url={safe_url}">'
+        '<meta property="og:type" content="website">'
+        '<meta property="og:title" content="WatchShaker Documentation">'
+        '<meta property="og:description" content="Native shake gesture detection for Apple Watch, designed for Swift 6 and SwiftUI.">'
+        f'<meta property="og:url" content="{safe_url}">'
+        '<meta name="twitter:card" content="summary">'
+        f"<script>window.location.replace({javascript_url});</script>"
+    )
+    return template.replace("<title>Documentation</title>", metadata, 1)
+
+
 def encoded_url(base_url: str, route: str) -> str:
     encoded_route = "/".join(quote(component, safe="():,_-") for component in route.split("/"))
     return f"{base_url}{encoded_route.rstrip('/')}/"
@@ -105,11 +124,12 @@ def write_route_pages(site: Path, base_url: str, template: str) -> list[dict[str
 
 def write_sitemap(site: Path, base_url: str, routes: list[dict[str, str]]) -> None:
     today = dt.datetime.now(dt.timezone.utc).date().isoformat()
-    entries = [
-        f"  <url><loc>{html.escape(base_url)}/</loc><lastmod>{today}</lastmod><priority>1.0</priority></url>"
-    ]
+    entries = []
     for item in routes:
-        priority = "0.8" if item["kind"] == "article" else "0.6"
+        if item["route"] == "/documentation/watchshaker":
+            priority = "1.0"
+        else:
+            priority = "0.8" if item["kind"] == "article" else "0.6"
         url = html.escape(encoded_url(base_url, item["route"]))
         entries.append(
             f"  <url><loc>{url}</loc><lastmod>{today}</lastmod><priority>{priority}</priority></url>"
@@ -241,13 +261,10 @@ def main() -> None:
     site = options.site.resolve()
     repository = options.repository_root.resolve()
     base_url = options.base_url.rstrip("/")
-    template_path = repository / "Documentation" / "index.html"
     docc_index = site / "index.html"
 
     if not docc_index.is_file():
         raise SystemExit(f"DocC index not found: {docc_index}")
-    if not template_path.is_file():
-        raise SystemExit(f"Landing-page template not found: {template_path}")
     if not base_url.startswith("https://"):
         raise SystemExit("The canonical documentation URL must use HTTPS.")
 
@@ -262,13 +279,7 @@ def main() -> None:
     fallback_path.write_text(docc_template, encoding="utf-8")
 
     docs_url = f"{base_url}/documentation/watchshaker/"
-    landing_page = (
-        template_path.read_text(encoding="utf-8")
-        .replace("{{BASE_URL}}", base_url)
-        .replace("{{DOCS_URL}}", docs_url)
-        .replace("{{VERSION}}", html.escape(options.version))
-    )
-    docc_index.write_text(landing_page, encoding="utf-8")
+    docc_index.write_text(landing_shell(docc_template, docs_url), encoding="utf-8")
     (site / ".nojekyll").touch()
 
     write_sitemap(site, base_url, routes)
