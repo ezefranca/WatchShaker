@@ -1,186 +1,166 @@
 
 # WatchShaker
-> Simple motion detector for ⌚️ (watchOS) shake gesture.
 
-[![Swift Version][swift-image]][swift-url] [![Platform](https://img.shields.io/cocoapods/p/WatchShaker.svg?style=flat)](http://cocoadocs.org/docsets/WatchShaker) ![github workflow](https://github.com/ezefranca/WatchShaker/actions/workflows/swift.yml/badge.svg) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5224580.svg)](https://doi.org/10.5281/zenodo.5224580) [![License][license-image]][license-url]
+Native shake detection for Apple Watch, designed for Swift 6 and SwiftUI.
 
-<p align="center">
-<img src="https://raw.githubusercontent.com/ezefranca/WatchShaker/master/.utils/bwshaker.jpg" width="400" height="300" />
- <br>
-  WatchShaker is a watchOS helper to get your ⌚️ shake movements
-</p>
+[![CI](https://github.com/ezefranca/WatchShaker/actions/workflows/swift.yml/badge.svg)](https://github.com/ezefranca/WatchShaker/actions/workflows/swift.yml)
+[![Swift 6](https://img.shields.io/badge/Swift-6-F05138.svg?logo=swift)](https://swift.org)
+[![watchOS 10+](https://img.shields.io/badge/watchOS-10%2B-000000.svg?logo=apple)](https://developer.apple.com/watchos/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5224580.svg)](https://doi.org/10.5281/zenodo.5224580)
 
-This project was presented at **ICECCME 2024**. The work is available at [IEEE Xplore](https://doi.org/10.1109/iceccme62383.2024.10796862). You can also find a preprint on [Papers with Code](https://cs.paperswithcode.com/paper/experimental-shake-gesture-detection-api-for).
+WatchShaker turns gravity-free Core Motion samples into deliberate, debounced shake events. It offers a view-lifecycle SwiftUI modifier, observable state, broadcast async streams, imperative callbacks, and capability-aware extended runtime support.
+
+## Why WatchShaker
+
+- Swift 6 strict-concurrency safety with main-actor observable state
+- Native SwiftUI lifecycle through `.onWatchShake`
+- Independent `AsyncStream` subscriptions for structured concurrency
+- Peak capture, hysteresis, cooldown, and monotonic sensor timing
+- Device-motion user acceleration with a filtered accelerometer fallback
+- Extended runtime integration without pretending watchOS allows unrestricted background work
+- Codable, Sendable event value types and deterministic Swift Testing coverage
 
 ## Requirements
 
-- watchOS 7.0+
-- Xcode 15.0+
+- watchOS 10 or later
+- Swift 6 language mode
+- Xcode 16 or later
+
+The simulator doesn't provide representative motion data. Validate gesture thresholds and background behavior on Apple Watch hardware.
+
+Keep one WatchShaker instance active at a time. The package shares one `CMMotionManager`, following Core Motion's guidance and avoiding competing sampling rates.
 
 ## Installation
 
-### Swift Package Manager
+Add WatchShaker with Xcode's **File → Add Package Dependencies**, using:
 
-Once you have your Swift package set up, adding WatchShaker as a dependency is as easy as adding it to the `dependencies` value of your `Package.swift`.
+```text
+https://github.com/ezefranca/WatchShaker.git
+```
+
+Or add it to a package manifest:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/ezefranca/WatchShaker.git")
+    .package(
+        url: "https://github.com/ezefranca/WatchShaker.git",
+        from: "2.0.0"
+    )
 ]
 ```
 
-### Manually
+## SwiftUI
 
-1. Download and drop [```WatchShaker```](https://github.com/ezefranca/WatchShaker/tree/main/Sources) folder in your project to your watch target.  
-2. Congratulations!  
-
-## Usage example
-
-### @StateObject style
+For most apps, attach the lifecycle-aware modifier to the view that owns the feature:
 
 ```swift
 import SwiftUI
 import WatchShaker
 
 struct ContentView: View {
-    
-    @StateObject var shaker:WatchShaker = WatchShaker(shakeSensibility: .shakeSensibilityNormal, delay: 0.2)
-    
+    @State private var shakeCount = 0
+
     var body: some View {
-        VStack {
-            if shaker.isShakerAvailable {
-                Text("I'm shook! ⌚️⌚️⌚️")
-                Text("\(shaker.shake.sensibility)")
-                Text("\(shaker.shake.direction)")
+        Text("Shakes: \(shakeCount)")
+            .onWatchShake { shake in
+                shakeCount += 1
+                print(shake.direction, shake.acceleration)
             }
-        }
     }
 }
 ```
 
-### Closure Style
+Monitoring starts with the view's task and stops when that task is cancelled.
+
+### Observable state and async events
+
+Use an owned `@State` instance when the UI needs lifecycle or latest-event state. `WatchShaker` uses Observation, so `@StateObject` is no longer appropriate.
 
 ```swift
-import WatchKit
-import Foundation
-import WatchShaker
+struct MotionView: View {
+    @State private var shaker = WatchShaker(
+        configuration: .init(sensitivity: .high)
+    )
 
-class InterfaceController: WKInterfaceController {
-    
-    var shaker:WatchShaker = WatchShaker(shakeSensibility: .shakeSensibilityNormal, delay: 0.2)
-    
-    override func awake(withContext context: Any?) {
-        super.awake(withContext: context)
-    }
-    
-    override func willActivate() {
-        super.willActivate()
-        
-        shaker.start()
-        
-        shaker.startWatchShakerUpdates = { shakeSensibility, error in
-            
-            guard error == nil else
-            {
-                print(error?.localizedDescription)
-                return
+    var body: some View {
+        Text(shaker.latestShake?.direction.rawValue ?? "Ready")
+            .task {
+                let events = shaker.shakes()
+
+                do {
+                    try shaker.start(in: .foreground)
+                    for await shake in events {
+                        print("Peak: \(shake.acceleration.magnitude) g")
+                    }
+                } catch {
+                    print(error.localizedDescription)
+                }
+
+                shaker.stop()
             }
-            print("I'm shook! ⌚️⌚️⌚️")
-        }
     }
-    
-    override func didDeactivate() {
-        super.didDeactivate()
-        shaker.stop()
-    }
-
 }
 ```
 
-### Delegate Style
+`isAvailable` describes hardware capability. It does **not** indicate that a shake occurred. Read `latestShake`, use `onShake`, or consume `shakes()` for events.
+
+## Configuration
 
 ```swift
-import WatchKit
-import Foundation
-
-class InterfaceController: WKInterfaceController {
-
-    override func awake(withContext context: Any?) {
-        super.awake(withContext: context)
-        // Configure interface objects here.
-    }
-
-    var shaker:WatchShaker = WatchShaker(shakeSensibility: .shakeSensibilityNormal, delay: 0.2)
-
-    override func willActivate() {
-
-        super.willActivate()
-        shaker.delegate = self
-        shaker.start()
-    }
-
-    override func didDeactivate() {
-
-        super.didDeactivate()
-        shaker.stop()
-
-    }
-
-}
-
-extension InterfaceController: WatchShakerDelegate
-{
-    func watchShaker(_ watchShaker: WatchShaker, didShakeWith sensibility: ShakeSensibility) {
-        print("I'm shook! ⌚️⌚️⌚️")
-    }
-
-    func watchShaker(_ watchShaker: WatchShaker, didFailWith error: Error) {
-        print(error.localizedDescription)
-    }
-}
+let configuration = WatchShakerConfiguration(
+    sensitivity: .normal,
+    sampling: .balanced,
+    detection: .balanced
+)
 ```
 
-### Optional Directions
+Higher sensitivity (`.high` or `.veryHigh`) recognizes gentler gestures. Sampling offers `.lowPower`, `.balanced`, and `.responsive`; detection offers `.responsive`, `.balanced`, and `.conservative` profiles. Begin with the balanced defaults and tune on real hardware with the movement your app actually teaches.
 
-If you are interested, you can get the  `direction` of the shake in the `didShakeWith` method. 
+Raw detector constants are kept out of the normal initializer. Applications with measured, hardware-specific requirements can create validated custom sampling and detection values. See [Configuration](Sources/WatchShaker/WatchShaker.docc/Configuration.md).
+
+## Background execution
+
+Yes—WatchShaker can keep monitoring during an eligible watchOS extended runtime session:
 
 ```swift
-func watchShaker(_ watchShaker: WatchShaker, didShakeWith sensibility: ShakeSensibility, 
-                     direction: ShakeDirection) {
-    print("I'm shook! ⌚️⌚️⌚️ \(direction)")
+.onWatchShake(mode: .extendedRuntime) { shake in
+    handle(shake)
 }
 ```
-`ShakeDirection` is a simple enum that gives you `up`, `down`, `left`, or `right` directions. The image below shows how each direction is determined.
 
-<p align="center">
-<img class="shake" src="https://raw.githubusercontent.com/ezefranca/WatchShaker/master/.utils/apple_watch_directions.png" width="50%" height="50%">
-</p>
-<br>
+Your watch app target must enable **Background Modes** and select the session type that truthfully matches the feature. watchOS, not the package, grants runtime and enforces time and energy limits. Physical therapy and smart alarm sessions can run in the background; self care and mindfulness sessions remain frontmost. A workout app should own an `HKWorkoutSession` and use WatchShaker's `.foreground` mode while that workout grants execution time.
 
-This gentleman below, for example, is clearly doing a shake with `ShakeDirection.shakeDirectionRight` 😂
+See [Background Monitoring](Sources/WatchShaker/WatchShaker.docc/BackgroundMonitoring.md) before shipping this mode.
 
-<p align="center">
-<img class="shake" src="https://raw.githubusercontent.com/ezefranca/WatchShaker/master/.utils/applewatch.gif" width="50%" height="50%">
-</p>
-<br>
+## Migrating from 1.x
 
-## Contribute
+The current API removes ambiguous fake state and adopts modern naming. Deprecated aliases cover many 1.x spellings, but lifecycle and event handling should be migrated deliberately.
 
-We would love for you to contribute to **WatchShaker**! Check the ``LICENSE`` file for more info.
+See the [Migration Guide](Sources/WatchShaker/WatchShaker.docc/MigrationGuide.md) for a complete mapping.
 
-## Meta
+## Documentation
 
-Docs: [Here](http://ezefranca.com/WatchShaker/docs/documentation/watchshaker/)
+- [Getting Started](Sources/WatchShaker/WatchShaker.docc/GettingStarted.md)
+- [Configuration](Sources/WatchShaker/WatchShaker.docc/Configuration.md)
+- [Background Monitoring](Sources/WatchShaker/WatchShaker.docc/BackgroundMonitoring.md)
+- [Migration Guide](Sources/WatchShaker/WatchShaker.docc/MigrationGuide.md)
+- [Detection Model](Sources/WatchShaker/WatchShaker.docc/DetectionModel.md)
 
-Ezequiel França – [@ezefranca](https://twitter.com/ezefranca) and all the awesome [Contributors](https://github.com/ezefranca/WatchShaker/graphs/contributors)
+Build the complete DocC site with:
 
-Distributed under the MIT license. See ``LICENSE`` for more information.
+```sh
+xcodebuild docbuild \
+  -scheme WatchShaker \
+  -destination 'generic/platform=watchOS Simulator'
+```
 
-[swift-url]: https://swift.org/
-[license-image]: https://img.shields.io/badge/License-MIT-blue.svg
-[travis-image]: https://img.shields.io/travis/dbader/node-datadog-metrics/master.svg?style=flat-square
-[travis-url]: https://travis-ci.org/dbader/node-datadog-metrics
-[codebeat-image]: https://codebeat.co/badges/c19b47ea-2f9d-45df-8458-b2d952fe9dad
-[codebeat-url]: https://codebeat.co/projects/github-com-vsouza-awesomeios-com
-[swift-image]:https://img.shields.io/badge/swift-5.5-orange.svg
-[license-url]: https://github.com/git/git-scm.com/blob/main/MIT-LICENSE.txt
+## Research
+
+WatchShaker was presented at **ICECCME 2024**. Read the paper on [IEEE Xplore](https://doi.org/10.1109/iceccme62383.2024.10796862) or view the [preprint](https://cs.paperswithcode.com/paper/experimental-shake-gesture-detection-api-for).
+
+## Contributing and license
+
+Contributions are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) and the [security policy](SECURITY.md) before opening a change.
+
+WatchShaker is available under the MIT License. See [LICENSE](LICENSE).

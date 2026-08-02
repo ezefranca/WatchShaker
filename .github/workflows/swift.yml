@@ -1,25 +1,49 @@
-name: Build and Test Apple Watch Package
+name: CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [main, swift6]
   pull_request:
-    branches: [ "main" ]
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  build:
-    runs-on: macos-latest
+  build-and-test:
+    runs-on: macos-15
+    timeout-minutes: 20
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-    - name: Launch watchOS Simulator
-      uses: futureware-tech/simulator-action@v2
-      with:
-        model: "Apple Watch Series 7 (45mm)"
-        os: 'watchOS'
-    - name: Build package for watchOS
-      run: |
-        xcodebuild build \
-          -scheme WatchShaker \
-          -destination "platform=watchOS Simulator,name=Apple Watch Series 7 (45mm),OS=9.1"
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Show toolchain
+        run: swift --version
+
+      - name: Validate package manifest
+        run: swift package dump-package > /dev/null
+
+      - name: Lint Swift formatting
+        run: xcrun swift-format lint --strict --recursive Sources Tests Package.swift
+
+      - name: Run deterministic detector tests
+        run: swift test
+
+      - name: Build watchOS library in Swift 6 mode
+        run: >-
+          xcodebuild build
+          -scheme WatchShaker
+          -destination 'generic/platform=watchOS Simulator'
+          CODE_SIGNING_ALLOWED=NO
+
+      - name: Validate DocC documentation
+        run: >-
+          xcodebuild docbuild
+          -scheme WatchShaker
+          -destination 'generic/platform=watchOS Simulator'
+          CODE_SIGNING_ALLOWED=NO
