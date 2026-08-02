@@ -8,7 +8,7 @@ Native shake detection for Apple Watch, designed for Swift 6 and SwiftUI.
 [![Swift Package Index: Swift versions](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fezefranca%2FWatchShaker%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/ezefranca/WatchShaker)
 [![Swift Package Index: platforms](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fezefranca%2FWatchShaker%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/ezefranca/WatchShaker)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21763478.svg)](https://doi.org/10.5281/10.5281/zenodo.21763478)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21763478.svg)](https://doi.org/10.5281/zenodo.21763478)
 
 WatchShaker turns gravity-free Core Motion samples into deliberate, debounced shake events. It offers a view-lifecycle SwiftUI modifier, observable state, broadcast async streams, imperative callbacks, and capability-aware extended runtime support.
 
