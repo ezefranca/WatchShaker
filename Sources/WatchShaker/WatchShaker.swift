@@ -95,12 +95,6 @@
     ///
     /// Calling this while the instance is already starting or monitoring is a no-op.
     public func start(in mode: MonitoringMode = .foreground) throws {
-      do {
-        try configuration.validate()
-      } catch let error as WatchShakerError {
-        report(error)
-        throw error
-      }
       guard state == .idle else { return }
       guard isAvailable else {
         let error = WatchShakerError.motionUnavailable
@@ -129,9 +123,8 @@
       driver?.invalidate()
     }
 
-    /// Applies a new validated configuration.
-    public func updateConfiguration(_ configuration: WatchShakerConfiguration) throws {
-      try configuration.validate()
+    /// Applies a new configuration.
+    public func updateConfiguration(_ configuration: WatchShakerConfiguration) {
       self.configuration = configuration
       if isMonitoring {
         source.updateConfiguration(configuration, owner: sourceOwner)
@@ -163,7 +156,6 @@
     public func adoptExtendedRuntimeSession(
       _ session: WKExtendedRuntimeSession
     ) throws {
-      try configuration.validate()
       guard state == .idle else { return }
       guard isAvailable else { throw WatchShakerError.motionUnavailable }
 
@@ -333,12 +325,25 @@
     /// The WatchShaker 1.x initializer. New code should create an idle instance.
     @available(*, deprecated, message: "Use init(configuration:) and start(in:) instead.")
     public convenience init(shakeSensibility: ShakeSensitivity, delay: TimeInterval) {
-      self.init(
-        configuration: WatchShakerConfiguration(
-          sensitivity: shakeSensibility,
-          cooldown: delay
+      let detection: WatchShakerConfiguration.DetectionProfile
+      do {
+        detection = try .custom(
+          cooldown: delay,
+          peakCaptureDuration: 0.1,
+          releaseThresholdRatio: 0.55,
+          directionDominance: 1.1
         )
-      )
+      } catch let error as WatchShakerError {
+        self.init(configuration: .init(sensitivity: shakeSensibility))
+        report(error)
+        return
+      } catch {
+        self.init(configuration: .init(sensitivity: shakeSensibility))
+        report(.invalidConfiguration(error.localizedDescription))
+        return
+      }
+
+      self.init(configuration: .init(sensitivity: shakeSensibility, detection: detection))
       do {
         try start(in: .foreground)
       } catch let error as WatchShakerError {
@@ -361,12 +366,12 @@
     public var coordinates: ShakeCoordinates? { latestAcceleration }
 
     /// Starts foreground monitoring using the WatchShaker 1.x call shape.
-    @available(*, deprecated, message: "Use start(in:) and configuration.updateInterval instead.")
+    @available(*, deprecated, message: "Use start(in:) and configuration.sampling instead.")
     public func start(delay accelerometerUpdateInterval: TimeInterval = 1.0 / 50.0) {
       do {
         var updated = configuration
-        updated.updateInterval = accelerometerUpdateInterval
-        try updateConfiguration(updated)
+        updated.sampling = try .custom(hertz: 1 / accelerometerUpdateInterval)
+        updateConfiguration(updated)
         try start(in: .foreground)
       } catch let error as WatchShakerError {
         report(error)
@@ -380,15 +385,28 @@
     public func threshold(new sensitivity: ShakeSensitivity) {
       var updated = configuration
       updated.sensitivity = sensitivity
-      try? updateConfiguration(updated)
+      updateConfiguration(updated)
     }
 
     /// Updates cooldown using the WatchShaker 1.x call shape.
     @available(*, deprecated, message: "Use updateConfiguration(_:) instead.")
     public func delay(value: TimeInterval) {
-      var updated = configuration
-      updated.cooldown = value
-      try? updateConfiguration(updated)
+      do {
+        let currentTuning = configuration.detection.tuning
+        let tuning = try WatchShakerConfiguration.DetectionTuning(
+          cooldown: value,
+          peakCaptureDuration: currentTuning.peakCaptureDuration,
+          releaseThresholdRatio: currentTuning.releaseThresholdRatio,
+          directionDominance: currentTuning.directionDominance
+        )
+        var updated = configuration
+        updated.detection = .custom(tuning)
+        updateConfiguration(updated)
+      } catch let error as WatchShakerError {
+        report(error)
+      } catch {
+        report(.invalidConfiguration(error.localizedDescription))
+      }
     }
   }
 #endif

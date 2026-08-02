@@ -7,8 +7,14 @@ import Testing
 struct ShakeDetectorTests {
   @Test("Captures the peak sample before emitting")
   func capturesPeak() throws {
-    var configuration = WatchShakerConfiguration()
-    configuration.peakCaptureDuration = 0.1
+    let configuration = WatchShakerConfiguration(
+      detection: try .custom(
+        cooldown: 0.3,
+        peakCaptureDuration: 0.1,
+        releaseThresholdRatio: 0.55,
+        directionDominance: 1.1
+      )
+    )
     var detector = ShakeDetector(configuration: configuration)
 
     #expect(detector.process(sample(x: 1.05, at: 1.0)) == nil)
@@ -33,11 +39,14 @@ struct ShakeDetectorTests {
 
   @Test("Uses hysteresis and cooldown to emit once per movement")
   func appliesHysteresisAndCooldown() throws {
-    var configuration = WatchShakerConfiguration(
-      cooldown: 0.3,
-      peakCaptureDuration: 0
+    let configuration = WatchShakerConfiguration(
+      detection: try .custom(
+        cooldown: 0.3,
+        peakCaptureDuration: 0,
+        releaseThresholdRatio: 0.5,
+        directionDominance: 1.1
+      )
     )
-    configuration.releaseThresholdRatio = 0.5
     var detector = ShakeDetector(configuration: configuration)
 
     let firstDetection = detector.process(sample(x: 1.2, at: 0))
@@ -53,7 +62,14 @@ struct ShakeDetectorTests {
 
   @Test("Resets safely when the monotonic timestamp moves backwards")
   func handlesTimestampReset() throws {
-    let configuration = WatchShakerConfiguration(peakCaptureDuration: 0)
+    let configuration = WatchShakerConfiguration(
+      detection: try .custom(
+        cooldown: 0.3,
+        peakCaptureDuration: 0,
+        releaseThresholdRatio: 0.55,
+        directionDominance: 1.1
+      )
+    )
     var detector = ShakeDetector(configuration: configuration)
 
     let firstDetection = detector.process(sample(x: 1.2, at: 10))

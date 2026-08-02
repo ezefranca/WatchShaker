@@ -49,11 +49,31 @@ struct PublicAPITests {
     #expect(decoded == shake)
   }
 
-  @Test("Rejects unsafe sampling intervals")
-  func configurationValidation() {
-    let configuration = WatchShakerConfiguration(updateInterval: 0)
+  @Test("Rejects unsafe custom sampling frequencies")
+  func samplingValidation() {
     #expect(throws: WatchShakerError.self) {
-      try configuration.validate()
+      try WatchShakerConfiguration.SamplingRate.custom(hertz: 0)
+    }
+  }
+
+  @Test("Default configuration exposes semantic balanced presets")
+  func configurationDefaults() {
+    let configuration = WatchShakerConfiguration()
+    #expect(configuration.sampling == .balanced)
+    #expect(configuration.detection == .balanced)
+    #expect(configuration.sampling.hertz == 50)
+    #expect(abs(configuration.updateInterval - 0.02) < 0.000_001)
+  }
+
+  @Test("Rejects unsafe custom detection tuning")
+  func detectionValidation() {
+    #expect(throws: WatchShakerError.self) {
+      try WatchShakerConfiguration.DetectionProfile.custom(
+        cooldown: 0.3,
+        peakCaptureDuration: 0.1,
+        releaseThresholdRatio: 1,
+        directionDominance: 1.1
+      )
     }
   }
 }
