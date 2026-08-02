@@ -4,8 +4,9 @@
 Native shake detection for Apple Watch, designed for Swift 6 and SwiftUI.
 
 [![CI](https://github.com/ezefranca/WatchShaker/actions/workflows/swift.yml/badge.svg)](https://github.com/ezefranca/WatchShaker/actions/workflows/swift.yml)
-[![Swift 6](https://img.shields.io/badge/Swift-6-F05138.svg?logo=swift)](https://swift.org)
-[![watchOS 10+](https://img.shields.io/badge/watchOS-10%2B-000000.svg?logo=apple)](https://developer.apple.com/watchos/)
+[![Documentation](https://img.shields.io/badge/documentation-DocC-0A84FF.svg?logo=swift&logoColor=white)](https://ezefranca.com/WatchShaker/documentation/watchshaker/)
+[![Swift Package Index: Swift versions](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fezefranca%2FWatchShaker%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/ezefranca/WatchShaker)
+[![Swift Package Index: platforms](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fezefranca%2FWatchShaker%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/ezefranca/WatchShaker)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5224580.svg)](https://doi.org/10.5281/zenodo.5224580)
 
@@ -117,7 +118,7 @@ let configuration = WatchShakerConfiguration(
 
 Higher sensitivity (`.high` or `.veryHigh`) recognizes gentler gestures. Sampling offers `.lowPower`, `.balanced`, and `.responsive`; detection offers `.responsive`, `.balanced`, and `.conservative` profiles. Begin with the balanced defaults and tune on real hardware with the movement your app actually teaches.
 
-Raw detector constants are kept out of the normal initializer. Applications with measured, hardware-specific requirements can create validated custom sampling and detection values. See [Configuration](Sources/WatchShaker/WatchShaker.docc/Configuration.md).
+Raw detector constants are kept out of the normal initializer. Applications with measured, hardware-specific requirements can create validated custom sampling and detection values. See [Configuration](https://ezefranca.com/WatchShaker/documentation/watchshaker/configuration/).
 
 ## Background execution
 
@@ -131,21 +132,23 @@ Yes—WatchShaker can keep monitoring during an eligible watchOS extended runtim
 
 Your watch app target must enable **Background Modes** and select the session type that truthfully matches the feature. watchOS, not the package, grants runtime and enforces time and energy limits. Physical therapy and smart alarm sessions can run in the background; self care and mindfulness sessions remain frontmost. A workout app should own an `HKWorkoutSession` and use WatchShaker's `.foreground` mode while that workout grants execution time.
 
-See [Background Monitoring](Sources/WatchShaker/WatchShaker.docc/BackgroundMonitoring.md) before shipping this mode.
+See [Background Monitoring](https://ezefranca.com/WatchShaker/documentation/watchshaker/backgroundmonitoring/) before shipping this mode.
 
 ## Migrating from 1.x
 
 The current API removes ambiguous fake state and adopts modern naming. Deprecated aliases cover many 1.x spellings, but lifecycle and event handling should be migrated deliberately.
 
-See the [Migration Guide](Sources/WatchShaker/WatchShaker.docc/MigrationGuide.md) for a complete mapping.
+See the [Migration Guide](https://ezefranca.com/WatchShaker/documentation/watchshaker/migrationguide/) for a complete mapping.
 
 ## Documentation
 
-- [Getting Started](Sources/WatchShaker/WatchShaker.docc/GettingStarted.md)
-- [Configuration](Sources/WatchShaker/WatchShaker.docc/Configuration.md)
-- [Background Monitoring](Sources/WatchShaker/WatchShaker.docc/BackgroundMonitoring.md)
-- [Migration Guide](Sources/WatchShaker/WatchShaker.docc/MigrationGuide.md)
-- [Detection Model](Sources/WatchShaker/WatchShaker.docc/DetectionModel.md)
+Read the [native DocC documentation](https://ezefranca.com/WatchShaker/documentation/watchshaker/) or browse the versioned copy hosted by the [Swift Package Index](https://swiftpackageindex.com/ezefranca/WatchShaker/documentation). The public site also publishes [agent-readable documentation](https://ezefranca.com/WatchShaker/llms.txt) and [structured package context](https://ezefranca.com/WatchShaker/agent-context.json).
+
+- [Getting Started](https://ezefranca.com/WatchShaker/documentation/watchshaker/gettingstarted/)
+- [Configuration](https://ezefranca.com/WatchShaker/documentation/watchshaker/configuration/)
+- [Background Monitoring](https://ezefranca.com/WatchShaker/documentation/watchshaker/backgroundmonitoring/)
+- [Migration Guide](https://ezefranca.com/WatchShaker/documentation/watchshaker/migrationguide/)
+- [Detection Model](https://ezefranca.com/WatchShaker/documentation/watchshaker/detectionmodel/)
 
 Build the complete DocC site with:
 

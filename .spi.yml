@@ -1,0 +1,6 @@
+version: 1
+builder:
+  configs:
+    - platform: watchos
+      scheme: WatchShaker
+      documentation_targets: [WatchShaker]
