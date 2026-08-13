@@ -6,7 +6,7 @@ Native shake detection for Apple Watch, designed for Swift 6 and SwiftUI.
 [![CI](https://github.com/ezefranca/WatchShaker/actions/workflows/swift.yml/badge.svg)](https://github.com/ezefranca/WatchShaker/actions/workflows/swift.yml)
 [![Documentation](https://img.shields.io/badge/documentation-DocC-0A84FF.svg?logo=swift&logoColor=white)](https://ezefranca.com/WatchShaker/documentation/watchshaker/)
 [![Swift Package Index: Swift versions](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fezefranca%2FWatchShaker%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/ezefranca/WatchShaker)
-[![Swift Package Index: platforms](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fezefranca%2FWatchShaker%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/ezefranca/WatchShaker)
+[![Swift Package Index: watchOS](https://img.shields.io/badge/watchOS-blue?logo=swift)](https://swiftpackageindex.com/ezefranca/WatchShaker)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![DOI](https://img.shields.io/static/v1?label=DOI&message=10.1109/ICECCME62383.2024.10796862&color=blue&style=flat-square)](https://doi.org/10.1109/ICECCME62383.2024.10796862)
 
