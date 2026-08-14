@@ -142,7 +142,7 @@ See the [Migration Guide](https://ezefranca.com/WatchShaker/documentation/watchs
 
 ## Documentation
 
-Read the [native DocC documentation](https://ezefranca.com/WatchShaker/documentation/watchshaker/) or browse the versioned copy hosted by the [Swift Package Index](https://swiftpackageindex.com/ezefranca/WatchShaker/documentation). The public site also publishes [agent-readable documentation](https://ezefranca.com/WatchShaker/llms.txt) and [structured package context](https://ezefranca.com/WatchShaker/agent-context.json).
+Read the [native DocC documentation](https://ezefranca.com/WatchShaker/documentation/watchshaker/). WatchShaker targets watchOS exclusively, which the [Swift Package Index build system](https://swiftpackageindex.com/ezefranca/WatchShaker/builds) can't build documentation for directly, so the package's [`.spi.yml`](.spi.yml) points the index at this self-hosted site instead (see the [Swift Package Index maintainer information](https://swiftpackageindex.com/ezefranca/WatchShaker/information-for-package-maintainers) and [SPIManifest's self-hosted documentation guide](https://swiftpackageindex.com/SwiftPackageIndex/SPIManifest/~/documentation/spimanifest/commonusecases#selfHosting)). The public site also publishes [agent-readable documentation](https://ezefranca.com/WatchShaker/llms.txt) and [structured package context](https://ezefranca.com/WatchShaker/agent-context.json).
 
 - [Getting Started](https://ezefranca.com/WatchShaker/documentation/watchshaker/gettingstarted/)
 - [Configuration](https://ezefranca.com/WatchShaker/documentation/watchshaker/configuration/)

@@ -1,6 +1,12 @@
 version: 1
+# watchOS is not a supported Swift Package Index documentation build
+# platform (only macOS, iOS, and Linux are), and this package targets
+# watchOS exclusively, so SPI can never produce hosted docArchives here.
+# Point SPI at the self-hosted DocC site instead. See:
+# https://swiftpackageindex.com/SwiftPackageIndex/SPIManifest/~/documentation/spimanifest/commonusecases#selfHosting
+external_links:
+  documentation: "https://ezefranca.com/WatchShaker/documentation/watchshaker/"
 builder:
   configs:
     - platform: watchos
       scheme: WatchShaker
-      documentation_targets: [WatchShaker]
