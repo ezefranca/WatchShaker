@@ -4,6 +4,16 @@ All notable changes to WatchShaker are documented here. The project follows [Sem
 
 ## [Unreleased]
 
+## [2.1.0] - 2026-08-14
+
+### Fixed
+
+- Configured `.spi.yml` with `external_links.documentation` so the Swift Package Index links to the self-hosted DocC site instead of attempting an unsupported watchOS documentation build, restoring the Documentation score on the package's Swift Package Index listing.
+
+### Changed
+
+- Updated the README's Documentation section to describe the self-hosted documentation setup and link to Swift Package Index maintainer information.
+
 ## [2.0.1] - 2026-08-02
 
 ### Added
@@ -52,6 +62,7 @@ All notable changes to WatchShaker are documented here. The project follows [Sem
 
 - Initial public release.
 
-[Unreleased]: https://github.com/ezefranca/WatchShaker/compare/2.0.1...HEAD
+[Unreleased]: https://github.com/ezefranca/WatchShaker/compare/2.1.0...HEAD
+[2.1.0]: https://github.com/ezefranca/WatchShaker/compare/2.0.1...2.1.0
 [2.0.1]: https://github.com/ezefranca/WatchShaker/compare/2.0.0...2.0.1
 [2.0.0]: https://github.com/ezefranca/WatchShaker/compare/1.0.0...2.0.0

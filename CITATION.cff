@@ -5,7 +5,7 @@ authors:
   given-names: "Ezequiel"
   orcid: "https://orcid.org/0000-0001-9321-8444"
 title: "WatchShaker"
-version: 2.0.1
+version: 2.1.0
 doi: 10.5281/zenodo.5224580
-date-released: 2026-08-02
+date-released: 2026-08-14
 url: "https://github.com/ezefranca/WatchShaker"
